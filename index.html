@@ -219,7 +219,33 @@
     }
 
 
+    .sound-button {
+
+      width: 100%;
+
+      border: none;
+
+      border-radius: 18px;
+
+      background: #e5e7eb;
+
+      color: #111;
+
+      font-size: 17px;
+
+      font-weight: 700;
+
+      padding: 17px;
+
+      margin-top: 12px;
+
+      cursor: pointer;
+
+    }
+
+
     .start-button:active,
+    .sound-button:active,
     .control-button:active {
 
       transform: scale(0.97);
@@ -458,7 +484,6 @@
 </head>
 
 
-
 <body>
 
 
@@ -545,6 +570,15 @@
       onclick="startWorkout()">
 
       DÉMARRER
+
+    </button>
+
+
+    <button
+      class="sound-button"
+      onclick="testSound()">
+
+      🔊 TESTER LE SON
 
     </button>
 
@@ -770,52 +804,29 @@
 
   let offDuration = 20;
 
-
   let currentPhase = "ON";
-
 
   let remainingSeconds = 40;
 
-
   let cycles = 0;
-
 
   let elapsedSeconds = 0;
 
-
   let timer = null;
-
 
   let isPaused = false;
 
-
-  /*
-    Moment exact où l'intervalle actuel
-    doit se terminer.
-  */
-
   let phaseEndTime = 0;
-
-
-  /*
-    Moment où l'entraînement a commencé.
-  */
 
   let workoutStartTime = 0;
 
-
-  /*
-    Temps déjà écoulé avant une pause.
-  */
-
   let pausedElapsed = 0;
 
-
-  /*
-    Moment où la pause a commencé.
-  */
-
   let pauseStartTime = 0;
+
+  let audioContext = null;
+
+  let lastBeepId = null;
 
 
 
@@ -859,11 +870,178 @@
 
 
   /* =========================
+     INITIALISER LE SON
+  ========================= */
+
+
+  function initializeAudio() {
+
+
+    if (!audioContext) {
+
+
+      const AudioContextClass =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+
+      if (!AudioContextClass) {
+
+        return false;
+
+      }
+
+
+      audioContext =
+        new AudioContextClass();
+
+    }
+
+
+    if (
+      audioContext.state === "suspended"
+    ) {
+
+      audioContext.resume();
+
+    }
+
+
+    return true;
+
+  }
+
+
+
+  /* =========================
+     TEST SON
+  ========================= */
+
+
+  function testSound() {
+
+
+    const ready =
+      initializeAudio();
+
+
+    if (!ready) {
+
+      alert(
+        "Le son web n'est pas disponible sur cet appareil."
+      );
+
+      return;
+
+    }
+
+
+    playTone(
+      800,
+      0.4,
+      0.25
+    );
+
+  }
+
+
+
+  /* =========================
+     CRÉER UN SON
+  ========================= */
+
+
+  function playTone(
+    frequency,
+    duration,
+    volume
+  ) {
+
+
+    if (!audioContext) {
+
+      return;
+
+    }
+
+
+    if (
+      audioContext.state === "suspended"
+    ) {
+
+      audioContext.resume();
+
+    }
+
+
+    const oscillator =
+      audioContext
+        .createOscillator();
+
+
+    const gain =
+      audioContext
+        .createGain();
+
+
+    oscillator.connect(gain);
+
+    gain.connect(
+      audioContext.destination
+    );
+
+
+    oscillator.frequency.value =
+      frequency;
+
+
+    oscillator.type =
+      "sine";
+
+
+    const now =
+      audioContext.currentTime;
+
+
+    gain.gain.setValueAtTime(
+      volume,
+      now
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      now + duration
+    );
+
+
+    oscillator.start(now);
+
+
+    oscillator.stop(
+      now + duration
+    );
+
+  }
+
+
+
+  /* =========================
      DÉMARRER
   ========================= */
 
 
   function startWorkout() {
+
+
+    /*
+      IMPORTANT :
+      Le son est initialisé ici,
+      directement après le toucher
+      du bouton DÉMARRER.
+    */
+
+    initializeAudio();
 
 
     onDuration =
@@ -888,7 +1066,8 @@
       );
 
 
-    currentPhase = "ON";
+    currentPhase =
+      "ON";
 
 
     remainingSeconds =
@@ -910,18 +1089,12 @@
     pauseStartTime = 0;
 
 
-    /*
-      Heure réelle de départ.
-    */
+    lastBeepId = null;
+
 
     workoutStartTime =
       Date.now();
 
-
-    /*
-      Heure exacte de fin
-      du premier intervalle.
-    */
 
     phaseEndTime =
       Date.now()
@@ -947,23 +1120,12 @@
     clearInterval(timer);
 
 
-    /*
-      On actualise plusieurs fois
-      par seconde pour garder
-      l'affichage fluide.
-    */
-
     timer =
       setInterval(
         updateTimer,
         100
       );
 
-
-    /*
-      Garde l'écran actif
-      si le navigateur le permet.
-    */
 
     requestKeepAwake();
 
@@ -973,7 +1135,7 @@
 
   /* =========================
      MOTEUR DU CHRONO
-  ========================== */
+  ========================= */
 
 
   function updateTimer() {
@@ -990,10 +1152,6 @@
       Date.now();
 
 
-    /*
-      Temps total réel écoulé.
-    */
-
     elapsedSeconds =
       Math.floor(
         (
@@ -1004,12 +1162,7 @@
       );
 
 
-    /*
-      Temps restant dans
-      l'intervalle actuel.
-    */
-
-    let remainingMilliseconds =
+    const remainingMilliseconds =
       phaseEndTime - now;
 
 
@@ -1026,8 +1179,7 @@
 
 
     /*
-      Les petits bips arrivent
-      à 3, 2 et 1 seconde.
+      Petits bips à 3, 2 et 1.
     */
 
     if (
@@ -1036,12 +1188,6 @@
       remainingSeconds === 1
     ) {
 
-
-      /*
-        On utilise un identifiant
-        pour éviter plusieurs bips
-        dus aux actualisations.
-      */
 
       const beepId =
         currentPhase
@@ -1052,11 +1198,13 @@
 
 
       if (
-        window.lastBeepId !== beepId
+        lastBeepId !== beepId
       ) {
 
-        window.lastBeepId =
+
+        lastBeepId =
           beepId;
+
 
         playCountdownBeep();
 
@@ -1066,7 +1214,7 @@
 
 
     /*
-      L'intervalle est terminé.
+      Fin de l'intervalle.
     */
 
     if (
@@ -1083,7 +1231,7 @@
 
   /* =========================
      CHANGER DE PHASE
-  ========================== */
+  ========================= */
 
 
   function changePhase() {
@@ -1097,7 +1245,8 @@
     ) {
 
 
-      currentPhase = "OFF";
+      currentPhase =
+        "OFF";
 
 
       remainingSeconds =
@@ -1114,7 +1263,8 @@
     else {
 
 
-      currentPhase = "ON";
+      currentPhase =
+        "ON";
 
 
       remainingSeconds =
@@ -1131,12 +1281,7 @@
     }
 
 
-    /*
-      On permet les nouveaux
-      bips de préparation.
-    */
-
-    window.lastBeepId =
+    lastBeepId =
       null;
 
 
@@ -1148,7 +1293,7 @@
 
   /* =========================
      AFFICHAGE
-  ========================== */
+  ========================= */
 
 
   function updateDisplay() {
@@ -1236,8 +1381,8 @@
 
 
   /* =========================
-     PAUSE / REPRENDRE
-  ========================== */
+     PAUSE
+  ========================= */
 
 
   function togglePause() {
@@ -1245,10 +1390,6 @@
 
     if (!isPaused) {
 
-
-      /*
-        Début de la pause.
-      */
 
       isPaused = true;
 
@@ -1264,15 +1405,10 @@
         .textContent =
         "REPRENDRE";
 
-
     }
 
     else {
 
-
-      /*
-        Fin de la pause.
-      */
 
       const pauseDuration =
         Date.now()
@@ -1282,12 +1418,6 @@
       pausedElapsed +=
         pauseDuration;
 
-
-      /*
-        On repousse la fin
-        de l'intervalle de la
-        durée de la pause.
-      */
 
       phaseEndTime +=
         pauseDuration;
@@ -1299,8 +1429,7 @@
       document
         .getElementById(
           "pauseButton"
-        )
-        .textContent =
+        ).textContent =
         "PAUSE";
 
     }
@@ -1311,7 +1440,7 @@
 
   /* =========================
      STOP
-  ========================== */
+  ========================= */
 
 
   function stopWorkout() {
@@ -1348,7 +1477,7 @@
 
   /* =========================
      RECOMMENCER
-  ========================== */
+  ========================= */
 
 
   function resetApp() {
@@ -1370,7 +1499,7 @@
 
   /* =========================
      CHANGER D'ÉCRAN
-  ========================== */
+  ========================= */
 
 
   function showScreen(
@@ -1420,170 +1549,42 @@
   /* =========================
      PETIT BIP
      3 - 2 - 1
-  ========================== */
+  ========================= */
 
 
   function playCountdownBeep() {
 
 
-    try {
-
-
-      const audioContext =
-        new (
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
-
-
-      const oscillator =
-        audioContext
-          .createOscillator();
-
-
-      const gain =
-        audioContext
-          .createGain();
-
-
-      oscillator.connect(
-        gain
-      );
-
-
-      gain.connect(
-        audioContext.destination
-      );
-
-
-      /*
-        Petit bip.
-      */
-
-      oscillator.frequency.value =
-        600;
-
-
-      gain.gain.setValueAtTime(
-        0.15,
-        audioContext.currentTime
-      );
-
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime
-        + 0.12
-      );
-
-
-      oscillator.start();
-
-
-      oscillator.stop(
-        audioContext.currentTime
-        + 0.12
-      );
-
-
-    }
-
-    catch (error) {
-
-
-      console.log(
-        "Petit bip non disponible"
-      );
-
-    }
+    playTone(
+      600,
+      0.12,
+      0.18
+    );
 
   }
 
 
 
   /* =========================
-     GROS SIGNAL FINAL
-  ========================== */
+     GROS SIGNAL
+  ========================= */
 
 
   function playSignal() {
 
 
-    try {
-
-
-      const audioContext =
-        new (
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
-
-
-      const oscillator =
-        audioContext
-          .createOscillator();
-
-
-      const gain =
-        audioContext
-          .createGain();
-
-
-      oscillator.connect(
-        gain
-      );
-
-
-      gain.connect(
-        audioContext.destination
-      );
-
-
-      /*
-        Signal final plus fort
-        et plus long.
-      */
-
-      oscillator.frequency.value =
-        900;
-
-
-      gain.gain.setValueAtTime(
-        0.35,
-        audioContext.currentTime
-      );
-
-
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime
-        + 0.5
-      );
-
-
-      oscillator.start();
-
-
-      oscillator.stop(
-        audioContext.currentTime
-        + 0.5
-      );
-
-
-    }
-
-    catch (error) {
-
-
-      console.log(
-        "Signal sonore non disponible"
-      );
-
-    }
+    playTone(
+      900,
+      0.55,
+      0.4
+    );
 
 
     /*
-      Vibration.
+      La vibration peut fonctionner
+      sur certains appareils,
+      mais iOS ne la garantit pas
+      pour une web app.
     */
 
     if (
@@ -1603,7 +1604,7 @@
 
   /* =========================
      GARDER L'ÉCRAN ACTIF
-  ========================== */
+  ========================= */
 
 
   let wakeLock = null;
@@ -1623,7 +1624,9 @@
         wakeLock =
           await navigator
             .wakeLock
-            .request("screen");
+            .request(
+              "screen"
+            );
 
 
         console.log(
@@ -1649,12 +1652,12 @@
 
   /* =========================
      RÉACTIVER LE WAKE LOCK
-  ========================== */
+  ========================= */
 
 
   document.addEventListener(
     "visibilitychange",
-    async function() {
+    function() {
 
 
       if (
@@ -1671,6 +1674,7 @@
 
     }
   );
+
 
 </script>
 
