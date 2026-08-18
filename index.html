@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  >
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Interval Timer"
+  >
+
+  <title>Interval Timer</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      background: #f2f2f7;
+
+      color: #111;
+
+      -webkit-user-select: none;
+      user-select: none;
+
+    }
+
+
+    .app {
+
+      width: 100%;
+
+      max-width: 500px;
+
+      min-height: 100vh;
+
+      min-height: 100dvh;
+
+      margin: auto;
+
+      padding:
+        max(25px, env(safe-area-inset-top))
+        20px
+        max(25px, env(safe-area-inset-bottom));
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+    }
+
+
+    button,
+    input {
+
+      -webkit-tap-highlight-color:
+        transparent;
+
+    }
+
+
+    /* =========================
+       CONFIGURATION
+    ========================= */
+
+    #setupScreen {
+
+      text-align: center;
+
+    }
+
+
+    .logo {
+
+      font-size: 30px;
+
+      font-weight: 800;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 45px;
+
+    }
+
+
+    .setting-card {
+
+      background: white;
+
+      border-radius: 22px;
+
+      padding: 22px;
+
+      margin-bottom: 15px;
+
+      box-shadow:
+        0 3px 15px
+        rgba(0,0,0,0.06);
+
+    }
+
+
+    .setting-label {
+
+      font-size: 18px;
+
+      font-weight: 700;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .on-label {
+
+      color: #16a34a;
+
+    }
+
+
+    .off-label {
+
+      color: #2563eb;
+
+    }
+
+
+    .time-input {
+
+      width: 150px;
+
+      border: none;
+
+      background: #f2f2f7;
+
+      border-radius: 15px;
+
+      text-align: center;
+
+      font-size: 42px;
+
+      font-weight: 700;
+
+      padding: 10px;
+
+      outline: none;
+
+      -webkit-user-select: text;
+      user-select: text;
+
+    }
+
+
+    .seconds {
+
+      margin-top: 5px;
+
+      color: #777;
+
+    }
+
+
+    .start-button {
+
+      width: 100%;
+
+      border: none;
+
+      border-radius: 18px;
+
+      background: #111;
+
+      color: white;
+
+      font-size: 20px;
+
+      font-weight: 800;
+
+      padding: 20px;
+
+      margin-top: 15px;
+
+      cursor: pointer;
+
+    }
+
+
+    .start-button:active,
+    .control-button:active {
+
+      transform: scale(0.97);
+
+    }
+
+
+    /* =========================
+       ENTRAÎNEMENT
+    ========================= */
+
+    #runningScreen {
+
+      text-align: center;
+
+    }
+
+
+    .phase-card {
+
+      background: white;
+
+      border-radius: 30px;
+
+      padding: 35px 20px;
+
+      box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.08);
+
+      transition:
+        background 0.3s;
+
+    }
+
+
+    .phase-card.on {
+
+      background: #dcfce7;
+
+    }
+
+
+    .phase-card.off {
+
+      background: #dbeafe;
+
+    }
+
+
+    .phase {
+
+      font-size: 34px;
+
+      font-weight: 900;
+
+      letter-spacing: 2px;
+
+    }
+
+
+    .phase-description {
+
+      margin-top: 5px;
+
+      font-size: 16px;
+
+      color: #555;
+
+    }
+
+
+    .countdown {
+
+      font-size:
+        clamp(80px, 22vw, 130px);
+
+      line-height: 1;
+
+      font-weight: 900;
+
+      letter-spacing: -4px;
+
+      margin: 35px 0;
+
+    }
+
+
+    .stats {
+
+      display: flex;
+
+      justify-content:
+        space-around;
+
+      margin-top: 25px;
+
+    }
+
+
+    .stat-label {
+
+      color: #777;
+
+      font-size: 14px;
+
+      margin-bottom: 5px;
+
+    }
+
+
+    .stat-value {
+
+      font-size: 25px;
+
+      font-weight: 800;
+
+    }
+
+
+    .controls {
+
+      display: flex;
+
+      gap: 12px;
+
+      margin-top: 20px;
+
+    }
+
+
+    .control-button {
+
+      flex: 1;
+
+      border: none;
+
+      border-radius: 18px;
+
+      padding: 20px 10px;
+
+      font-size: 17px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+
+    }
+
+
+    .pause-button {
+
+      background: #e5e7eb;
+
+      color: #111;
+
+    }
+
+
+    .stop-button {
+
+      background: #111;
+
+      color: white;
+
+    }
+
+
+    /* =========================
+       TERMINÉ
+    ========================= */
+
+    #finishedScreen {
+
+      text-align: center;
+
+    }
+
+
+    .finished-card {
+
+      background: white;
+
+      border-radius: 30px;
+
+      padding: 40px 25px;
+
+      box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.08);
+
+    }
+
+
+    .finished-title {
+
+      font-size: 38px;
+
+      font-weight: 900;
+
+      margin-bottom: 40px;
+
+    }
+
+
+    .result-label {
+
+      color: #777;
+
+      font-size: 16px;
+
+      margin-top: 20px;
+
+    }
+
+
+    .result-value {
+
+      font-size: 48px;
+
+      font-weight: 900;
+
+      margin-top: 5px;
+
+    }
+
+
+    .hidden {
+
+      display: none !important;
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+<div class="app">
+
+
+  <!-- =========================
+       CONFIGURATION
+  ========================== -->
+
+  <div id="setupScreen">
+
+
+    <div class="logo">
+
+      INTERVAL TIMER
+
+    </div>
+
+
+
+    <div class="setting-card">
+
+
+      <div class="setting-label on-label">
+
+        🟢 ON — COURSE
+
+      </div>
+
+
+      <input
+        id="onInput"
+        class="time-input"
+        type="number"
+        min="1"
+        value="40"
+      >
+
+
+      <div class="seconds">
+
+        secondes
+
+      </div>
+
+
+    </div>
+
+
+
+    <div class="setting-card">
+
+
+      <div class="setting-label off-label">
+
+        🔵 OFF — RÉCUPÉRATION
+
+      </div>
+
+
+      <input
+        id="offInput"
+        class="time-input"
+        type="number"
+        min="1"
+        value="20"
+      >
+
+
+      <div class="seconds">
+
+        secondes
+
+      </div>
+
+
+    </div>
+
+
+
+    <button
+      class="start-button"
+      onclick="startWorkout()">
+
+      DÉMARRER
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- =========================
+       ENTRAÎNEMENT
+  ========================== -->
+
+  <div
+    id="runningScreen"
+    class="hidden"
+  >
+
+
+    <div
+      id="phaseCard"
+      class="phase-card on"
+    >
+
+
+      <div
+        id="phase"
+        class="phase"
+      >
+
+        ON
+
+      </div>
+
+
+      <div
+        id="phaseDescription"
+        class="phase-description"
+      >
+
+        COURSE
+
+      </div>
+
+
+      <div
+        id="countdown"
+        class="countdown"
+      >
+
+        00:40
+
+      </div>
+
+
+      <div class="stats">
+
+
+        <div>
+
+          <div class="stat-label">
+
+            TEMPS
+
+          </div>
+
+
+          <div
+            id="elapsed"
+            class="stat-value"
+          >
+
+            00:00
+
+          </div>
+
+        </div>
+
+
+
+        <div>
+
+          <div class="stat-label">
+
+            CYCLES
+
+          </div>
+
+
+          <div
+            id="cycles"
+            class="stat-value"
+          >
+
+            0
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <div class="controls">
+
+
+      <button
+        id="pauseButton"
+        class="control-button pause-button"
+        onclick="togglePause()"
+      >
+
+        PAUSE
+
+      </button>
+
+
+
+      <button
+        class="control-button stop-button"
+        onclick="stopWorkout()"
+      >
+
+        STOP
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =========================
+       TERMINÉ
+  ========================== -->
+
+  <div
+    id="finishedScreen"
+    class="hidden"
+  >
+
+
+    <div class="finished-card">
+
+
+      <div class="finished-title">
+
+        TERMINÉ 🎉
+
+      </div>
+
+
+      <div class="result-label">
+
+        TEMPS TOTAL
+
+      </div>
+
+
+      <div
+        id="finalTime"
+        class="result-value"
+      >
+
+        00:00
+
+      </div>
+
+
+      <div class="result-label">
+
+        CYCLES COMPLÉTÉS
+
+      </div>
+
+
+      <div
+        id="finalCycles"
+        class="result-value"
+      >
+
+        0
+
+      </div>
+
+
+      <button
+        class="start-button"
+        onclick="resetApp()"
+      >
+
+        RECOMMENCER
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+
+  /* =========================
+     VARIABLES
+  ========================= */
+
+
+  let onDuration = 40;
+
+  let offDuration = 20;
+
+
+  let currentPhase = "ON";
+
+
+  let remainingSeconds = 40;
+
+
+  let cycles = 0;
+
+
+  let elapsedSeconds = 0;
+
+
+  let timer = null;
+
+
+  let isPaused = false;
+
+
+  /*
+    Moment exact où l'intervalle actuel
+    doit se terminer.
+  */
+
+  let phaseEndTime = 0;
+
+
+  /*
+    Moment où l'entraînement a commencé.
+  */
+
+  let workoutStartTime = 0;
+
+
+  /*
+    Temps déjà écoulé avant une pause.
+  */
+
+  let pausedElapsed = 0;
+
+
+  /*
+    Moment où la pause a commencé.
+  */
+
+  let pauseStartTime = 0;
+
+
+
+  /* =========================
+     FORMAT DU TEMPS
+  ========================= */
+
+
+  function formatTime(seconds) {
+
+
+    seconds =
+      Math.max(
+        0,
+        Math.floor(seconds)
+      );
+
+
+    const minutes =
+      Math.floor(seconds / 60);
+
+
+    const secs =
+      seconds % 60;
+
+
+    return (
+
+      String(minutes)
+        .padStart(2, "0")
+
+      + ":" +
+
+      String(secs)
+        .padStart(2, "0")
+
+    );
+
+  }
+
+
+
+  /* =========================
+     DÉMARRER
+  ========================= */
+
+
+  function startWorkout() {
+
+
+    onDuration =
+      Math.max(
+        1,
+        parseInt(
+          document.getElementById(
+            "onInput"
+          ).value
+        ) || 40
+      );
+
+
+    offDuration =
+      Math.max(
+        1,
+        parseInt(
+          document.getElementById(
+            "offInput"
+          ).value
+        ) || 20
+      );
+
+
+    currentPhase = "ON";
+
+
+    remainingSeconds =
+      onDuration;
+
+
+    cycles = 0;
+
+
+    elapsedSeconds = 0;
+
+
+    isPaused = false;
+
+
+    pausedElapsed = 0;
+
+
+    pauseStartTime = 0;
+
+
+    /*
+      Heure réelle de départ.
+    */
+
+    workoutStartTime =
+      Date.now();
+
+
+    /*
+      Heure exacte de fin
+      du premier intervalle.
+    */
+
+    phaseEndTime =
+      Date.now()
+      + onDuration * 1000;
+
+
+    document
+      .getElementById(
+        "pauseButton"
+      )
+      .textContent =
+      "PAUSE";
+
+
+    showScreen(
+      "runningScreen"
+    );
+
+
+    updateDisplay();
+
+
+    clearInterval(timer);
+
+
+    /*
+      On actualise plusieurs fois
+      par seconde pour garder
+      l'affichage fluide.
+    */
+
+    timer =
+      setInterval(
+        updateTimer,
+        100
+      );
+
+
+    /*
+      Garde l'écran actif
+      si le navigateur le permet.
+    */
+
+    requestKeepAwake();
+
+  }
+
+
+
+  /* =========================
+     MOTEUR DU CHRONO
+  ========================== */
+
+
+  function updateTimer() {
+
+
+    if (isPaused) {
+
+      return;
+
+    }
+
+
+    const now =
+      Date.now();
+
+
+    /*
+      Temps total réel écoulé.
+    */
+
+    elapsedSeconds =
+      Math.floor(
+        (
+          now
+          - workoutStartTime
+          - pausedElapsed
+        ) / 1000
+      );
+
+
+    /*
+      Temps restant dans
+      l'intervalle actuel.
+    */
+
+    let remainingMilliseconds =
+      phaseEndTime - now;
+
+
+    remainingSeconds =
+      Math.max(
+        0,
+        Math.ceil(
+          remainingMilliseconds / 1000
+        )
+      );
+
+
+    updateDisplay();
+
+
+    /*
+      Les petits bips arrivent
+      à 3, 2 et 1 seconde.
+    */
+
+    if (
+      remainingSeconds === 3 ||
+      remainingSeconds === 2 ||
+      remainingSeconds === 1
+    ) {
+
+
+      /*
+        On utilise un identifiant
+        pour éviter plusieurs bips
+        dus aux actualisations.
+      */
+
+      const beepId =
+        currentPhase
+        + "-"
+        + remainingSeconds
+        + "-"
+        + phaseEndTime;
+
+
+      if (
+        window.lastBeepId !== beepId
+      ) {
+
+        window.lastBeepId =
+          beepId;
+
+        playCountdownBeep();
+
+      }
+
+    }
+
+
+    /*
+      L'intervalle est terminé.
+    */
+
+    if (
+      remainingMilliseconds <= 0
+    ) {
+
+      changePhase();
+
+    }
+
+  }
+
+
+
+  /* =========================
+     CHANGER DE PHASE
+  ========================== */
+
+
+  function changePhase() {
+
+
+    playSignal();
+
+
+    if (
+      currentPhase === "ON"
+    ) {
+
+
+      currentPhase = "OFF";
+
+
+      remainingSeconds =
+        offDuration;
+
+
+      phaseEndTime =
+        Date.now()
+        + offDuration * 1000;
+
+
+    }
+
+    else {
+
+
+      currentPhase = "ON";
+
+
+      remainingSeconds =
+        onDuration;
+
+
+      phaseEndTime =
+        Date.now()
+        + onDuration * 1000;
+
+
+      cycles++;
+
+    }
+
+
+    /*
+      On permet les nouveaux
+      bips de préparation.
+    */
+
+    window.lastBeepId =
+      null;
+
+
+    updateDisplay();
+
+  }
+
+
+
+  /* =========================
+     AFFICHAGE
+  ========================== */
+
+
+  function updateDisplay() {
+
+
+    const phaseElement =
+      document.getElementById(
+        "phase"
+      );
+
+
+    const descriptionElement =
+      document.getElementById(
+        "phaseDescription"
+      );
+
+
+    const phaseCard =
+      document.getElementById(
+        "phaseCard"
+      );
+
+
+    phaseElement.textContent =
+      currentPhase;
+
+
+    if (
+      currentPhase === "ON"
+    ) {
+
+
+      descriptionElement.textContent =
+        "COURSE";
+
+
+      phaseCard.className =
+        "phase-card on";
+
+
+    }
+
+    else {
+
+
+      descriptionElement.textContent =
+        "RÉCUPÉRATION";
+
+
+      phaseCard.className =
+        "phase-card off";
+
+    }
+
+
+    document
+      .getElementById(
+        "countdown"
+      )
+      .textContent =
+      formatTime(
+        remainingSeconds
+      );
+
+
+    document
+      .getElementById(
+        "elapsed"
+      )
+      .textContent =
+      formatTime(
+        elapsedSeconds
+      );
+
+
+    document
+      .getElementById(
+        "cycles"
+      )
+      .textContent =
+      cycles;
+
+  }
+
+
+
+  /* =========================
+     PAUSE / REPRENDRE
+  ========================== */
+
+
+  function togglePause() {
+
+
+    if (!isPaused) {
+
+
+      /*
+        Début de la pause.
+      */
+
+      isPaused = true;
+
+
+      pauseStartTime =
+        Date.now();
+
+
+      document
+        .getElementById(
+          "pauseButton"
+        )
+        .textContent =
+        "REPRENDRE";
+
+
+    }
+
+    else {
+
+
+      /*
+        Fin de la pause.
+      */
+
+      const pauseDuration =
+        Date.now()
+        - pauseStartTime;
+
+
+      pausedElapsed +=
+        pauseDuration;
+
+
+      /*
+        On repousse la fin
+        de l'intervalle de la
+        durée de la pause.
+      */
+
+      phaseEndTime +=
+        pauseDuration;
+
+
+      isPaused = false;
+
+
+      document
+        .getElementById(
+          "pauseButton"
+        )
+        .textContent =
+        "PAUSE";
+
+    }
+
+  }
+
+
+
+  /* =========================
+     STOP
+  ========================== */
+
+
+  function stopWorkout() {
+
+
+    clearInterval(timer);
+
+
+    document
+      .getElementById(
+        "finalTime"
+      )
+      .textContent =
+      formatTime(
+        elapsedSeconds
+      );
+
+
+    document
+      .getElementById(
+        "finalCycles"
+      )
+      .textContent =
+      cycles;
+
+
+    showScreen(
+      "finishedScreen"
+    );
+
+  }
+
+
+
+  /* =========================
+     RECOMMENCER
+  ========================== */
+
+
+  function resetApp() {
+
+
+    clearInterval(timer);
+
+
+    isPaused = false;
+
+
+    showScreen(
+      "setupScreen"
+    );
+
+  }
+
+
+
+  /* =========================
+     CHANGER D'ÉCRAN
+  ========================== */
+
+
+  function showScreen(
+    screenId
+  ) {
+
+
+    document
+      .getElementById(
+        "setupScreen"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    document
+      .getElementById(
+        "runningScreen"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    document
+      .getElementById(
+        "finishedScreen"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    document
+      .getElementById(
+        screenId
+      )
+      .classList.remove(
+        "hidden"
+      );
+
+  }
+
+
+
+  /* =========================
+     PETIT BIP
+     3 - 2 - 1
+  ========================== */
+
+
+  function playCountdownBeep() {
+
+
+    try {
+
+
+      const audioContext =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+
+      const oscillator =
+        audioContext
+          .createOscillator();
+
+
+      const gain =
+        audioContext
+          .createGain();
+
+
+      oscillator.connect(
+        gain
+      );
+
+
+      gain.connect(
+        audioContext.destination
+      );
+
+
+      /*
+        Petit bip.
+      */
+
+      oscillator.frequency.value =
+        600;
+
+
+      gain.gain.setValueAtTime(
+        0.15,
+        audioContext.currentTime
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime
+        + 0.12
+      );
+
+
+      oscillator.start();
+
+
+      oscillator.stop(
+        audioContext.currentTime
+        + 0.12
+      );
+
+
+    }
+
+    catch (error) {
+
+
+      console.log(
+        "Petit bip non disponible"
+      );
+
+    }
+
+  }
+
+
+
+  /* =========================
+     GROS SIGNAL FINAL
+  ========================== */
+
+
+  function playSignal() {
+
+
+    try {
+
+
+      const audioContext =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+
+      const oscillator =
+        audioContext
+          .createOscillator();
+
+
+      const gain =
+        audioContext
+          .createGain();
+
+
+      oscillator.connect(
+        gain
+      );
+
+
+      gain.connect(
+        audioContext.destination
+      );
+
+
+      /*
+        Signal final plus fort
+        et plus long.
+      */
+
+      oscillator.frequency.value =
+        900;
+
+
+      gain.gain.setValueAtTime(
+        0.35,
+        audioContext.currentTime
+      );
+
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime
+        + 0.5
+      );
+
+
+      oscillator.start();
+
+
+      oscillator.stop(
+        audioContext.currentTime
+        + 0.5
+      );
+
+
+    }
+
+    catch (error) {
+
+
+      console.log(
+        "Signal sonore non disponible"
+      );
+
+    }
+
+
+    /*
+      Vibration.
+    */
+
+    if (
+      navigator.vibrate
+    ) {
+
+
+      navigator.vibrate(
+        [200, 100, 200]
+      );
+
+    }
+
+  }
+
+
+
+  /* =========================
+     GARDER L'ÉCRAN ACTIF
+  ========================== */
+
+
+  let wakeLock = null;
+
+
+  async function requestKeepAwake() {
+
+
+    try {
+
+
+      if (
+        "wakeLock" in navigator
+      ) {
+
+
+        wakeLock =
+          await navigator
+            .wakeLock
+            .request("screen");
+
+
+        console.log(
+          "Écran maintenu actif"
+        );
+
+      }
+
+    }
+
+    catch (error) {
+
+
+      console.log(
+        "Wake Lock non disponible"
+      );
+
+    }
+
+  }
+
+
+
+  /* =========================
+     RÉACTIVER LE WAKE LOCK
+  ========================== */
+
+
+  document.addEventListener(
+    "visibilitychange",
+    async function() {
+
+
+      if (
+        document.visibilityState
+        === "visible"
+        &&
+        !isPaused
+      ) {
+
+
+        requestKeepAwake();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+
+</html>
