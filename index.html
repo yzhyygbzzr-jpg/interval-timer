@@ -3,483 +3,858 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-  <meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
-  >
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes"
+>
 
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
-  >
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="black-translucent"
+>
 
-  <meta
-    name="apple-mobile-web-app-title"
-    content="Interval Timer"
-  >
+<meta
+  name="apple-mobile-web-app-title"
+  content="Interval Timer"
+>
 
-  <title>Interval Timer</title>
+<title>Interval Timer</title>
 
 
-  <style>
+<style>
 
-    * {
-      box-sizing: border-box;
-    }
+/* =========================
+   BASE
+========================= */
 
+* {
+  box-sizing: border-box;
+}
 
-    body {
 
-      margin: 0;
+html,
+body {
 
-      min-height: 100vh;
+  margin: 0;
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
+  width: 100%;
 
-      background: #f2f2f7;
+  min-height: 100%;
 
-      color: #111;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
 
-      -webkit-user-select: none;
-      user-select: none;
+  background: #0b0d10;
 
-    }
+  color: white;
 
+  -webkit-user-select: none;
 
-    .app {
+  user-select: none;
 
-      width: 100%;
+}
 
-      max-width: 500px;
 
-      min-height: 100vh;
+/* =========================
+   APPLICATION
+========================= */
 
-      min-height: 100dvh;
+body {
 
-      margin: auto;
+  min-height: 100vh;
 
-      padding:
-        max(25px, env(safe-area-inset-top))
-        20px
-        max(25px, env(safe-area-inset-bottom));
+  min-height: 100dvh;
 
-      display: flex;
+}
 
-      flex-direction: column;
 
-      justify-content: center;
+.app {
 
-    }
+  width: 100%;
 
+  max-width: 520px;
 
-    button,
-    input {
+  min-height: 100vh;
 
-      -webkit-tap-highlight-color:
-        transparent;
+  min-height: 100dvh;
 
-    }
+  margin: auto;
 
+  padding:
+    max(20px, env(safe-area-inset-top))
+    18px
+    max(22px, env(safe-area-inset-bottom));
 
-    /* =========================
-       CONFIGURATION
-    ========================= */
+  display: flex;
 
-    #setupScreen {
+  flex-direction: column;
 
-      text-align: center;
+  justify-content: center;
 
-    }
+}
 
 
-    .logo {
+/* =========================
+   PAYSAGE
+========================= */
 
-      font-size: 30px;
+.landscape-warning {
 
-      font-weight: 800;
+  position: fixed;
 
-      letter-spacing: 2px;
+  inset: 0;
 
-      margin-bottom: 45px;
+  z-index: 9999;
 
-    }
+  display: none;
 
+  background: #0b0d10;
 
-    .setting-card {
+  color: white;
 
-      background: white;
+  align-items: center;
 
-      border-radius: 22px;
+  justify-content: center;
 
-      padding: 22px;
+  text-align: center;
 
-      margin-bottom: 15px;
+  padding: 30px;
 
-      box-shadow:
-        0 3px 15px
-        rgba(0,0,0,0.06);
+}
 
-    }
 
+.landscape-warning-inner {
 
-    .setting-label {
+  max-width: 320px;
 
-      font-size: 18px;
+}
 
-      font-weight: 700;
 
-      margin-bottom: 12px;
+.landscape-icon {
 
-    }
+  font-size: 60px;
 
+  margin-bottom: 20px;
 
-    .on-label {
+}
 
-      color: #16a34a;
 
-    }
+.landscape-title {
 
+  font-size: 25px;
 
-    .off-label {
+  font-weight: 800;
 
-      color: #2563eb;
+  margin-bottom: 10px;
 
-    }
+}
 
 
-    .time-input {
+.landscape-text {
 
-      width: 150px;
+  color: #a7adb5;
 
-      border: none;
+  font-size: 16px;
 
-      background: #f2f2f7;
+  line-height: 1.5;
 
-      border-radius: 15px;
+}
 
-      text-align: center;
 
-      font-size: 42px;
+/*
+  Safari iPhone ne permet pas
+  de verrouiller réellement l'écran
+  par JavaScript.
+  On affiche donc un écran de rappel.
+*/
 
-      font-weight: 700;
+@media (
+  orientation: landscape
+) {
 
-      padding: 10px;
+  .landscape-warning {
 
-      outline: none;
+    display: flex;
 
-      -webkit-user-select: text;
-      user-select: text;
+  }
 
-    }
+}
 
 
-    .seconds {
+/* =========================
+   ÉCRAN D'ACCUEIL
+========================= */
 
-      margin-top: 5px;
+#setupScreen {
 
-      color: #777;
+  width: 100%;
 
-    }
+}
 
 
-    .start-button {
+.logo {
 
-      width: 100%;
+  text-align: center;
 
-      border: none;
+  font-size: 28px;
 
-      border-radius: 18px;
+  font-weight: 900;
 
-      background: #111;
+  letter-spacing: 3px;
 
-      color: white;
+  margin-bottom: 8px;
 
-      font-size: 20px;
+}
 
-      font-weight: 800;
 
-      padding: 20px;
+.subtitle {
 
-      margin-top: 15px;
+  text-align: center;
 
-      cursor: pointer;
+  color: #8d949e;
 
-    }
+  font-size: 14px;
 
+  margin-bottom: 32px;
 
-    .sound-button {
+}
 
-      width: 100%;
 
-      border: none;
+/* =========================
+   CARTES DE RÉGLAGE
+========================= */
 
-      border-radius: 18px;
+.setting-card {
 
-      background: #e5e7eb;
+  background:
+    #15181d;
 
-      color: #111;
+  border:
+    1px solid #242830;
 
-      font-size: 17px;
+  border-radius: 24px;
 
-      font-weight: 700;
+  padding: 20px;
 
-      padding: 17px;
+  margin-bottom: 12px;
 
-      margin-top: 12px;
+}
 
-      cursor: pointer;
 
-    }
+.setting-top {
 
+  display: flex;
 
-    .start-button:active,
-    .sound-button:active,
-    .control-button:active {
+  align-items: center;
 
-      transform: scale(0.97);
+  justify-content: space-between;
 
-    }
+}
 
 
-    /* =========================
-       ENTRAÎNEMENT
-    ========================= */
+.setting-label {
 
-    #runningScreen {
+  font-size: 17px;
 
-      text-align: center;
+  font-weight: 800;
 
-    }
+}
 
 
-    .phase-card {
+.setting-description {
 
-      background: white;
+  color: #8d949e;
 
-      border-radius: 30px;
+  font-size: 13px;
 
-      padding: 35px 20px;
+  margin-top: 4px;
 
-      box-shadow:
-        0 5px 25px
-        rgba(0,0,0,0.08);
+}
 
-      transition:
-        background 0.3s;
 
-    }
+.on-label {
 
+  color: #48d597;
 
-    .phase-card.on {
+}
 
-      background: #dcfce7;
 
-    }
+.off-label {
 
+  color: #5797ff;
 
-    .phase-card.off {
+}
 
-      background: #dbeafe;
 
-    }
+.time-input {
 
+  width: 105px;
 
-    .phase {
+  border: none;
 
-      font-size: 34px;
+  outline: none;
 
-      font-weight: 900;
+  background: #22262d;
 
-      letter-spacing: 2px;
+  color: white;
 
-    }
+  border-radius: 16px;
 
+  text-align: center;
 
-    .phase-description {
+  font-size: 32px;
 
-      margin-top: 5px;
+  font-weight: 800;
 
-      font-size: 16px;
+  padding: 12px 5px;
 
-      color: #555;
+  -webkit-user-select: text;
 
-    }
+  user-select: text;
 
+}
 
-    .countdown {
 
-      font-size:
-        clamp(80px, 22vw, 130px);
+/* =========================
+   BOUTONS
+========================= */
 
-      line-height: 1;
+.start-button {
 
-      font-weight: 900;
+  width: 100%;
 
-      letter-spacing: -4px;
+  border: none;
 
-      margin: 35px 0;
+  border-radius: 20px;
 
-    }
+  background: white;
 
+  color: #0b0d10;
 
-    .stats {
+  font-size: 19px;
 
-      display: flex;
+  font-weight: 900;
 
-      justify-content:
-        space-around;
+  padding: 19px;
 
-      margin-top: 25px;
+  margin-top: 10px;
 
-    }
+  cursor: pointer;
 
+}
 
-    .stat-label {
 
-      color: #777;
+.sound-button {
 
-      font-size: 14px;
+  display: block;
 
-      margin-bottom: 5px;
+  margin: 12px auto 0;
 
-    }
+  border: none;
 
+  background: transparent;
 
-    .stat-value {
+  color: #8d949e;
 
-      font-size: 25px;
+  font-size: 13px;
 
-      font-weight: 800;
+  font-weight: 600;
 
-    }
+  padding: 7px 12px;
 
+  cursor: pointer;
 
-    .controls {
+}
 
-      display: flex;
 
-      gap: 12px;
+button:active {
 
-      margin-top: 20px;
+  transform: scale(0.97);
 
-    }
+}
 
 
-    .control-button {
+/* =========================
+   ENTRAÎNEMENT
+========================= */
 
-      flex: 1;
+#runningScreen {
 
-      border: none;
+  width: 100%;
 
-      border-radius: 18px;
+}
 
-      padding: 20px 10px;
 
-      font-size: 17px;
+.run-header {
 
-      font-weight: 800;
+  display: flex;
 
-      cursor: pointer;
+  justify-content: space-between;
 
-    }
+  align-items: center;
 
+  margin-bottom: 14px;
 
-    .pause-button {
+}
 
-      background: #e5e7eb;
 
-      color: #111;
+.app-name-small {
 
-    }
+  font-size: 13px;
 
+  font-weight: 800;
 
-    .stop-button {
+  letter-spacing: 1.5px;
 
-      background: #111;
+  color: #7e858f;
 
-      color: white;
+}
 
-    }
 
+.gps-status {
 
-    /* =========================
-       TERMINÉ
-    ========================= */
+  font-size: 12px;
 
-    #finishedScreen {
+  font-weight: 700;
 
-      text-align: center;
+  color: #8d949e;
 
-    }
+}
 
 
-    .finished-card {
+.gps-status.active {
 
-      background: white;
+  color: #48d597;
 
-      border-radius: 30px;
+}
 
-      padding: 40px 25px;
 
-      box-shadow:
-        0 5px 25px
-        rgba(0,0,0,0.08);
+/* =========================
+   PHASE
+========================= */
 
-    }
+.phase-card {
 
+  border-radius: 32px;
 
-    .finished-title {
+  padding: 25px 20px 22px;
 
-      font-size: 38px;
+  text-align: center;
 
-      font-weight: 900;
+  transition:
+    background 0.25s,
+    border-color 0.25s;
 
-      margin-bottom: 40px;
+  border: 1px solid transparent;
 
-    }
+}
 
 
-    .result-label {
+.phase-card.on {
 
-      color: #777;
+  background:
+    linear-gradient(
+      145deg,
+      #153e2c,
+      #10261e
+    );
 
-      font-size: 16px;
+  border-color:
+    #245f44;
 
-      margin-top: 20px;
+}
 
-    }
 
+.phase-card.off {
 
-    .result-value {
+  background:
+    linear-gradient(
+      145deg,
+      #162f54,
+      #101e33
+    );
 
-      font-size: 48px;
+  border-color:
+    #28558c;
 
-      font-weight: 900;
+}
 
-      margin-top: 5px;
 
-    }
+.phase {
 
+  font-size: 27px;
 
-    .hidden {
+  font-weight: 900;
 
-      display: none !important;
+  letter-spacing: 2px;
 
-    }
+}
 
-  </style>
+
+.phase-description {
+
+  color: #aeb5bf;
+
+  font-size: 13px;
+
+  margin-top: 3px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+}
+
+
+.countdown {
+
+  font-size:
+    clamp(
+      76px,
+      22vw,
+      118px
+    );
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  letter-spacing: -5px;
+
+  margin:
+    27px
+    0
+    20px;
+
+}
+
+
+/* =========================
+   STATISTIQUES GPS
+========================= */
+
+.stats-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 8px;
+
+}
+
+
+.stat {
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.055
+    );
+
+  border-radius: 16px;
+
+  padding: 12px 5px;
+
+}
+
+
+.stat-label {
+
+  color: #858c96;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: .5px;
+
+}
+
+
+.stat-value {
+
+  font-size: 20px;
+
+  font-weight: 850;
+
+  margin-top: 4px;
+
+}
+
+
+.stat-unit {
+
+  font-size: 11px;
+
+  color: #858c96;
+
+  margin-left: 2px;
+
+}
+
+
+/* =========================
+   INFOS SECONDAIRES
+========================= */
+
+.secondary-stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 8px;
+
+  margin-top: 8px;
+
+}
+
+
+.secondary-stat {
+
+  background:
+    #15181d;
+
+  border:
+    1px solid #242830;
+
+  border-radius: 16px;
+
+  padding: 11px;
+
+  text-align: center;
+
+}
+
+
+.secondary-label {
+
+  color: #858c96;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+}
+
+
+.secondary-value {
+
+  font-size: 19px;
+
+  font-weight: 800;
+
+  margin-top: 3px;
+
+}
+
+
+/* =========================
+   CONTRÔLES
+========================= */
+
+.controls {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+
+  margin-top: 12px;
+
+}
+
+
+.control-button {
+
+  border: none;
+
+  border-radius: 18px;
+
+  padding: 17px 10px;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+}
+
+
+.pause-button {
+
+  background: #e5e7eb;
+
+  color: #111;
+
+}
+
+
+.stop-button {
+
+  background: #252a31;
+
+  color: white;
+
+}
+
+
+/* =========================
+   ÉCRAN TERMINÉ
+========================= */
+
+#finishedScreen {
+
+  text-align: center;
+
+}
+
+
+.finished-card {
+
+  background: #15181d;
+
+  border:
+    1px solid #242830;
+
+  border-radius: 30px;
+
+  padding: 32px 20px;
+
+}
+
+
+.finished-title {
+
+  font-size: 36px;
+
+  font-weight: 900;
+
+  margin-bottom: 28px;
+
+}
+
+
+.results-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 10px;
+
+}
+
+
+.result-box {
+
+  background: #20242b;
+
+  border-radius: 18px;
+
+  padding: 17px 8px;
+
+}
+
+
+.result-label {
+
+  color: #858c96;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+}
+
+
+.result-value {
+
+  font-size: 27px;
+
+  font-weight: 900;
+
+  margin-top: 5px;
+
+}
+
+
+.restart-button {
+
+  width: 100%;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background: white;
+
+  color: #111;
+
+  font-size: 17px;
+
+  font-weight: 900;
+
+  padding: 18px;
+
+  margin-top: 18px;
+
+}
+
+
+/* =========================
+   MESSAGE GPS
+========================= */
+
+.gps-message {
+
+  text-align: center;
+
+  color: #8d949e;
+
+  font-size: 12px;
+
+  margin-top: 10px;
+
+  line-height: 1.4;
+
+}
+
+
+/* =========================
+   CACHÉ
+========================= */
+
+.hidden {
+
+  display: none !important;
+
+}
+
+</style>
 
 </head>
 
@@ -487,30 +862,68 @@
 <body>
 
 
+<!-- =========================
+     MESSAGE PAYSAGE
+========================= -->
+
+<div class="landscape-warning">
+
+  <div class="landscape-warning-inner">
+
+    <div class="landscape-icon">
+      📱↕️
+    </div>
+
+    <div class="landscape-title">
+      Téléphone à la verticale
+    </div>
+
+    <div class="landscape-text">
+      Pour utiliser Interval Timer,
+      replace ton iPhone en position
+      portrait.
+    </div>
+
+  </div>
+
+</div>
+
+
+
 <div class="app">
 
 
-  <!-- =========================
-       CONFIGURATION
-  ========================== -->
+<!-- =========================
+     ACCUEIL
+========================= -->
 
-  <div id="setupScreen">
-
-
-    <div class="logo">
-
-      INTERVAL TIMER
-
-    </div>
+<div id="setupScreen">
 
 
+  <div class="logo">
+    INTERVAL TIMER
+  </div>
 
-    <div class="setting-card">
+
+  <div class="subtitle">
+    Ton entraînement. Ton rythme. Ton objectif.
+  </div>
 
 
-      <div class="setting-label on-label">
+  <div class="setting-card">
 
-        🟢 ON — COURSE
+
+    <div class="setting-top">
+
+      <div>
+
+        <div class="setting-label on-label">
+          🟢 COURSE
+        </div>
+
+        <div class="setting-description">
+          Intervalle ON
+        </div>
 
       </div>
 
@@ -523,24 +936,27 @@
         value="40"
       >
 
-
-      <div class="seconds">
-
-        secondes
-
-      </div>
-
-
     </div>
 
 
+  </div>
 
-    <div class="setting-card">
 
 
-      <div class="setting-label off-label">
+  <div class="setting-card">
 
-        🔵 OFF — RÉCUPÉRATION
+
+    <div class="setting-top">
+
+      <div>
+
+        <div class="setting-label off-label">
+          🔵 RÉCUPÉRATION
+        </div>
+
+        <div class="setting-description">
+          Intervalle OFF
+        </div>
 
       </div>
 
@@ -553,131 +969,161 @@
         value="20"
       >
 
-
-      <div class="seconds">
-
-        secondes
-
-      </div>
-
-
     </div>
-
-
-
-    <button
-      class="start-button"
-      onclick="startWorkout()">
-
-      DÉMARRER
-
-    </button>
-
-
-    <button
-      class="sound-button"
-      onclick="testSound()">
-
-      🔊 TESTER LE SON
-
-    </button>
 
 
   </div>
 
 
 
-  <!-- =========================
-       ENTRAÎNEMENT
-  ========================== -->
+  <button
+    class="start-button"
+    onclick="startWorkout()"
+  >
+
+    DÉMARRER
+
+  </button>
+
+
+  <button
+    class="sound-button"
+    onclick="testSound()"
+  >
+
+    🔊 Tester le son
+
+  </button>
+
+
+</div>
+
+
+
+<!-- =========================
+     ENTRAÎNEMENT
+========================= -->
+
+<div
+  id="runningScreen"
+  class="hidden"
+>
+
+
+  <div class="run-header">
+
+    <div class="app-name-small">
+      INTERVAL TIMER
+    </div>
+
+
+    <div
+      id="gpsStatus"
+      class="gps-status"
+    >
+
+      📍 GPS...
+
+    </div>
+
+  </div>
+
+
 
   <div
-    id="runningScreen"
-    class="hidden"
+    id="phaseCard"
+    class="phase-card on"
   >
 
 
     <div
-      id="phaseCard"
-      class="phase-card on"
+      id="phase"
+      class="phase"
     >
+      ON
+    </div>
 
 
-      <div
-        id="phase"
-        class="phase"
-      >
-
-        ON
-
-      </div>
+    <div
+      id="phaseDescription"
+      class="phase-description"
+    >
+      COURSE
+    </div>
 
 
-      <div
-        id="phaseDescription"
-        class="phase-description"
-      >
-
-        COURSE
-
-      </div>
+    <div
+      id="countdown"
+      class="countdown"
+    >
+      00:40
+    </div>
 
 
-      <div
-        id="countdown"
-        class="countdown"
-      >
 
-        00:40
+    <!-- GPS -->
 
-      </div>
+    <div class="stats-grid">
 
 
-      <div class="stats">
+      <div class="stat">
 
-
-        <div>
-
-          <div class="stat-label">
-
-            TEMPS
-
-          </div>
-
-
-          <div
-            id="elapsed"
-            class="stat-value"
-          >
-
-            00:00
-
-          </div>
-
+        <div class="stat-label">
+          Distance
         </div>
 
-
-
-        <div>
-
-          <div class="stat-label">
-
-            CYCLES
-
-          </div>
-
-
-          <div
-            id="cycles"
-            class="stat-value"
-          >
-
-            0
-
-          </div>
-
+        <div
+          id="distance"
+          class="stat-value"
+        >
+          0.00
         </div>
 
+        <span class="stat-unit">
+          km
+        </span>
+
+      </div>
+
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Allure
+        </div>
+
+        <div
+          id="pace"
+          class="stat-value"
+        >
+          --
+        </div>
+
+        <span class="stat-unit">
+          /km
+        </span>
+
+      </div>
+
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          Vitesse
+        </div>
+
+        <div
+          id="speed"
+          class="stat-value"
+        >
+          --
+        </div>
+
+        <span class="stat-unit">
+          km/h
+        </span>
 
       </div>
 
@@ -686,29 +1132,40 @@
 
 
 
-    <div class="controls">
+    <div class="secondary-stats">
 
 
-      <button
-        id="pauseButton"
-        class="control-button pause-button"
-        onclick="togglePause()"
-      >
+      <div class="secondary-stat">
 
-        PAUSE
+        <div class="secondary-label">
+          Temps
+        </div>
 
-      </button>
+        <div
+          id="elapsed"
+          class="secondary-value"
+        >
+          00:00
+        </div>
+
+      </div>
 
 
 
-      <button
-        class="control-button stop-button"
-        onclick="stopWorkout()"
-      >
+      <div class="secondary-stat">
 
-        STOP
+        <div class="secondary-label">
+          Cycles
+        </div>
 
-      </button>
+        <div
+          id="cycles"
+          class="secondary-value"
+        >
+          0
+        </div>
+
+      </div>
 
 
     </div>
@@ -718,71 +1175,33 @@
 
 
 
-  <!-- =========================
-       TERMINÉ
-  ========================== -->
-
   <div
-    id="finishedScreen"
-    class="hidden"
+    id="gpsMessage"
+    class="gps-message"
   >
+    Recherche du signal GPS...
+  </div>
 
 
-    <div class="finished-card">
+
+  <div class="controls">
 
 
-      <div class="finished-title">
-
-        TERMINÉ 🎉
-
-      </div>
-
-
-      <div class="result-label">
-
-        TEMPS TOTAL
-
-      </div>
+    <button
+      id="pauseButton"
+      class="control-button pause-button"
+      onclick="togglePause()"
+    >
+      PAUSE
+    </button>
 
 
-      <div
-        id="finalTime"
-        class="result-value"
-      >
-
-        00:00
-
-      </div>
-
-
-      <div class="result-label">
-
-        CYCLES COMPLÉTÉS
-
-      </div>
-
-
-      <div
-        id="finalCycles"
-        class="result-value"
-      >
-
-        0
-
-      </div>
-
-
-      <button
-        class="start-button"
-        onclick="resetApp()"
-      >
-
-        RECOMMENCER
-
-      </button>
-
-
-    </div>
+    <button
+      class="control-button stop-button"
+      onclick="stopWorkout()"
+    >
+      STOP
+    </button>
 
 
   </div>
@@ -792,278 +1211,1332 @@
 
 
 
+<!-- =========================
+     TERMINÉ
+========================= -->
+
+<div
+  id="finishedScreen"
+  class="hidden"
+>
+
+
+  <div class="finished-card">
+
+
+    <div class="finished-title">
+      TERMINÉ 🎉
+    </div>
+
+
+
+    <div class="results-grid">
+
+
+      <div class="result-box">
+
+        <div class="result-label">
+          Temps
+        </div>
+
+        <div
+          id="finalTime"
+          class="result-value"
+        >
+          00:00
+        </div>
+
+      </div>
+
+
+
+      <div class="result-box">
+
+        <div class="result-label">
+          Cycles
+        </div>
+
+        <div
+          id="finalCycles"
+          class="result-value"
+        >
+          0
+        </div>
+
+      </div>
+
+
+
+      <div class="result-box">
+
+        <div class="result-label">
+          Distance
+        </div>
+
+        <div
+          id="finalDistance"
+          class="result-value"
+        >
+          0.00 km
+        </div>
+
+      </div>
+
+
+
+      <div class="result-box">
+
+        <div class="result-label">
+          Allure moyenne
+        </div>
+
+        <div
+          id="finalPace"
+          class="result-value"
+        >
+          --
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+    <button
+      class="restart-button"
+      onclick="resetApp()"
+    >
+      RECOMMENCER
+    </button>
+
+
+  </div>
+
+
+</div>
+
+
+</div>
+
+
+
 <script>
 
 
-  /* =========================
-     VARIABLES
-  ========================= */
+/* =====================================================
+   VARIABLES
+===================================================== */
 
 
-  let onDuration = 40;
+let onDuration = 40;
 
-  let offDuration = 20;
+let offDuration = 20;
 
-  let currentPhase = "ON";
+let currentPhase = "ON";
 
-  let remainingSeconds = 40;
+let remainingSeconds = 40;
 
-  let cycles = 0;
+let cycles = 0;
 
-  let elapsedSeconds = 0;
+let elapsedSeconds = 0;
 
-  let timer = null;
+let timer = null;
 
-  let isPaused = false;
+let isPaused = false;
 
-  let phaseEndTime = 0;
+let phaseEndTime = 0;
 
-  let workoutStartTime = 0;
+let workoutStartTime = 0;
 
-  let pausedElapsed = 0;
+let pausedElapsed = 0;
 
-  let pauseStartTime = 0;
-
-  let audioContext = null;
-
-  let lastBeepId = null;
+let pauseStartTime = 0;
 
 
+/* AUDIO */
 
-  /* =========================
-     FORMAT DU TEMPS
-  ========================= */
+let audioContext = null;
 
-
-  function formatTime(seconds) {
+let lastBeepId = null;
 
 
-    seconds =
-      Math.max(
-        0,
-        Math.floor(seconds)
-      );
+/* GPS */
+
+let gpsWatchId = null;
+
+let lastPosition = null;
+
+let totalDistanceMeters = 0;
+
+let gpsStarted = false;
 
 
-    const minutes =
-      Math.floor(seconds / 60);
+/* =====================================================
+   FORMAT TEMPS
+===================================================== */
 
 
-    const secs =
-      seconds % 60;
+function formatTime(seconds) {
 
+
+  seconds =
+    Math.max(
+      0,
+      Math.floor(seconds)
+    );
+
+
+  const minutes =
+    Math.floor(
+      seconds / 60
+    );
+
+
+  const secs =
+    seconds % 60;
+
+
+  return (
+
+    String(minutes)
+      .padStart(2, "0")
+
+    + ":"
+
+    +
+
+    String(secs)
+      .padStart(2, "0")
+
+  );
+
+}
+
+
+/* =====================================================
+   FORMAT ALLURE
+===================================================== */
+
+
+function formatPace(
+  secondsPerKm
+) {
+
+
+  if (
+    !isFinite(secondsPerKm)
+    ||
+    secondsPerKm <= 0
+  ) {
+
+    return "--";
+
+  }
+
+
+  const minutes =
+    Math.floor(
+      secondsPerKm / 60
+    );
+
+
+  const seconds =
+    Math.round(
+      secondsPerKm % 60
+    );
+
+
+  if (
+    seconds >= 60
+  ) {
 
     return (
-
-      String(minutes)
-        .padStart(2, "0")
-
-      + ":" +
-
-      String(secs)
-        .padStart(2, "0")
-
+      String(minutes + 1)
+      + ":00"
     );
 
   }
 
 
+  return (
 
-  /* =========================
-     INITIALISER LE SON
-  ========================= */
+    String(minutes)
+      .padStart(1, "0")
 
+    + ":"
 
-  function initializeAudio() {
+    +
 
+    String(seconds)
+      .padStart(2, "0")
 
-    if (!audioContext) {
+  );
 
-
-      const AudioContextClass =
-        window.AudioContext ||
-        window.webkitAudioContext;
-
-
-      if (!AudioContextClass) {
-
-        return false;
-
-      }
+}
 
 
-      audioContext =
-        new AudioContextClass();
-
-    }
-
-
-    if (
-      audioContext.state === "suspended"
-    ) {
-
-      audioContext.resume();
-
-    }
+/* =====================================================
+   DISTANCE GPS
+===================================================== */
 
 
-    return true;
-
-  }
-
-
-
-  /* =========================
-     TEST SON
-  ========================= */
+function distanceBetween(
+  lat1,
+  lon1,
+  lat2,
+  lon2
+) {
 
 
-  function testSound() {
+  const earthRadius =
+    6371000;
 
 
-    const ready =
-      initializeAudio();
+  const toRadians =
+    Math.PI / 180;
 
 
-    if (!ready) {
-
-      alert(
-        "Le son web n'est pas disponible sur cet appareil."
-      );
-
-      return;
-
-    }
+  const dLat =
+    (
+      lat2 - lat1
+    ) * toRadians;
 
 
-    playTone(
-      800,
-      0.4,
-      0.25
+  const dLon =
+    (
+      lon2 - lon1
+    ) * toRadians;
+
+
+  const a =
+
+    Math.sin(
+      dLat / 2
+    ) ** 2
+
+    +
+
+    Math.cos(
+      lat1 * toRadians
+    )
+
+    *
+
+    Math.cos(
+      lat2 * toRadians
+    )
+
+    *
+
+    Math.sin(
+      dLon / 2
+    ) ** 2;
+
+
+  const c =
+
+    2 *
+
+    Math.atan2(
+      Math.sqrt(a),
+      Math.sqrt(1 - a)
     );
 
-  }
+
+  return (
+    earthRadius * c
+  );
+
+}
 
 
+/* =====================================================
+   GPS — DÉMARRER
+===================================================== */
 
-  /* =========================
-     CRÉER UN SON
-  ========================= */
+
+function startGPS() {
 
 
-  function playTone(
-    frequency,
-    duration,
-    volume
+  if (
+    !navigator.geolocation
   ) {
 
 
-    if (!audioContext) {
-
-      return;
-
-    }
-
-
-    if (
-      audioContext.state === "suspended"
-    ) {
-
-      audioContext.resume();
-
-    }
-
-
-    const oscillator =
-      audioContext
-        .createOscillator();
-
-
-    const gain =
-      audioContext
-        .createGain();
-
-
-    oscillator.connect(gain);
-
-    gain.connect(
-      audioContext.destination
+    setGPSStatus(
+      "GPS non disponible",
+      false
     );
 
 
-    oscillator.frequency.value =
-      frequency;
+    document
+      .getElementById(
+        "gpsMessage"
+      )
+      .textContent =
+      "Le GPS n'est pas disponible sur cet appareil.";
 
 
-    oscillator.type =
-      "sine";
-
-
-    const now =
-      audioContext.currentTime;
-
-
-    gain.gain.setValueAtTime(
-      volume,
-      now
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      0.001,
-      now + duration
-    );
-
-
-    oscillator.start(now);
-
-
-    oscillator.stop(
-      now + duration
-    );
+    return;
 
   }
 
 
+  setGPSStatus(
+    "📍 GPS...",
+    false
+  );
 
-  /* =========================
-     DÉMARRER
-  ========================= */
+
+  document
+    .getElementById(
+      "gpsMessage"
+    )
+    .textContent =
+    "Autorisation de localisation requise...";
 
 
-  function startWorkout() {
+  gpsWatchId =
+    navigator.geolocation.watchPosition(
+
+      handleGPSPosition,
+
+      handleGPSError,
+
+      {
+
+        enableHighAccuracy: true,
+
+        maximumAge: 1000,
+
+        timeout: 10000
+
+      }
+
+    );
+
+
+  gpsStarted = true;
+
+}
+
+
+/* =====================================================
+   GPS — POSITION
+===================================================== */
+
+
+function handleGPSPosition(
+  position
+) {
+
+
+  const coords =
+    position.coords;
+
+
+  /*
+    Une précision GPS de plus de
+    40 mètres est trop incertaine
+    pour ajouter la distance.
+  */
+
+  if (
+    coords.accuracy
+    &&
+    coords.accuracy > 40
+  ) {
+
+
+    document
+      .getElementById(
+        "gpsMessage"
+      )
+      .textContent =
+      "Signal GPS faible...";
+
+
+    return;
+
+  }
+
+
+  setGPSStatus(
+    "📍 GPS actif",
+    true
+  );
+
+
+  document
+    .getElementById(
+      "gpsMessage"
+    )
+    .textContent =
+    "GPS actif";
+
+
+  /*
+    Première position :
+    on l'enregistre mais on
+    n'ajoute aucune distance.
+  */
+
+  if (
+    !lastPosition
+  ) {
+
+
+    lastPosition = {
+
+      latitude:
+        coords.latitude,
+
+      longitude:
+        coords.longitude,
+
+      timestamp:
+        position.timestamp
+
+    };
+
+
+    updateGPSDisplay();
+
+    return;
+
+  }
+
+
+  const distance =
+    distanceBetween(
+
+      lastPosition.latitude,
+
+      lastPosition.longitude,
+
+      coords.latitude,
+
+      coords.longitude
+
+    );
+
+
+  /*
+    On ignore les déplacements
+    minuscules causés par les
+    variations du GPS.
+
+    On ignore aussi les énormes
+    sauts GPS improbables.
+  */
+
+  if (
+    distance >= 3
+    &&
+    distance <= 100
+  ) {
+
+
+    totalDistanceMeters +=
+      distance;
+
+
+    lastPosition = {
+
+      latitude:
+        coords.latitude,
+
+      longitude:
+        coords.longitude,
+
+      timestamp:
+        position.timestamp
+
+    };
+
+
+  }
+
+  else if (
+    distance < 3
+  ) {
 
 
     /*
-      IMPORTANT :
-      Le son est initialisé ici,
-      directement après le toucher
-      du bouton DÉMARRER.
+      Même si on n'ajoute pas
+      cette distance, on actualise
+      la position de référence.
     */
 
-    initializeAudio();
+    lastPosition = {
+
+      latitude:
+        coords.latitude,
+
+      longitude:
+        coords.longitude,
+
+      timestamp:
+        position.timestamp
+
+    };
+
+  }
 
 
-    onDuration =
-      Math.max(
-        1,
-        parseInt(
-          document.getElementById(
+  updateGPSDisplay();
+
+}
+
+
+/* =====================================================
+   GPS — ERREUR
+===================================================== */
+
+
+function handleGPSError(
+  error
+) {
+
+
+  let message =
+    "GPS indisponible";
+
+
+  if (
+    error.code === 1
+  ) {
+
+    message =
+      "Autorisation GPS refusée.";
+
+  }
+
+
+  else if (
+    error.code === 2
+  ) {
+
+    message =
+      "Position GPS introuvable.";
+
+  }
+
+
+  else if (
+    error.code === 3
+  ) {
+
+    message =
+      "Le GPS met trop de temps à répondre.";
+
+  }
+
+
+  setGPSStatus(
+    "📍 GPS",
+    false
+  );
+
+
+  document
+    .getElementById(
+      "gpsMessage"
+    )
+    .textContent =
+    message;
+
+}
+
+
+/* =====================================================
+   GPS — AFFICHAGE
+===================================================== */
+
+
+function updateGPSDisplay() {
+
+
+  const distanceKm =
+    totalDistanceMeters
+    / 1000;
+
+
+  document
+    .getElementById(
+      "distance"
+    )
+    .textContent =
+    distanceKm.toFixed(2);
+
+
+  /*
+    Allure moyenne.
+
+    On utilise le temps réel
+    écoulé et la distance.
+  */
+
+  if (
+    distanceKm >= 0.01
+    &&
+    elapsedSeconds > 0
+  ) {
+
+
+    const secondsPerKm =
+      elapsedSeconds
+      / distanceKm;
+
+
+    document
+      .getElementById(
+        "pace"
+      )
+      .textContent =
+      formatPace(
+        secondsPerKm
+      );
+
+
+  }
+
+  else {
+
+
+    document
+      .getElementById(
+        "pace"
+      )
+      .textContent =
+      "--";
+
+  }
+
+
+  /*
+    Vitesse moyenne.
+  */
+
+  if (
+    distanceKm >= 0.01
+    &&
+    elapsedSeconds > 0
+  ) {
+
+
+    const speed =
+      distanceKm
+      /
+      (
+        elapsedSeconds / 3600
+      );
+
+
+    document
+      .getElementById(
+        "speed"
+      )
+      .textContent =
+      speed.toFixed(1);
+
+
+  }
+
+  else {
+
+
+    document
+      .getElementById(
+        "speed"
+      )
+      .textContent =
+      "--";
+
+  }
+
+}
+
+
+/* =====================================================
+   GPS STATUS
+===================================================== */
+
+
+function setGPSStatus(
+  text,
+  active
+) {
+
+
+  const element =
+    document.getElementById(
+      "gpsStatus"
+    );
+
+
+  element.textContent =
+    text;
+
+
+  if (
+    active
+  ) {
+
+    element.classList.add(
+      "active"
+    );
+
+  }
+
+  else {
+
+    element.classList.remove(
+      "active"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   ARRÊTER GPS
+===================================================== */
+
+
+function stopGPS() {
+
+
+  if (
+    gpsWatchId !== null
+  ) {
+
+
+    navigator
+      .geolocation
+      .clearWatch(
+        gpsWatchId
+      );
+
+
+    gpsWatchId = null;
+
+  }
+
+
+  gpsStarted = false;
+
+}
+
+
+/* =====================================================
+   AUDIO
+===================================================== */
+
+
+function initializeAudio() {
+
+
+  if (
+    !audioContext
+  ) {
+
+
+    const AudioContextClass =
+      window.AudioContext ||
+      window.webkitAudioContext;
+
+
+    if (
+      !AudioContextClass
+    ) {
+
+      return false;
+
+    }
+
+
+    audioContext =
+      new AudioContextClass();
+
+  }
+
+
+  if (
+    audioContext.state ===
+    "suspended"
+  ) {
+
+
+    audioContext.resume();
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =====================================================
+   TEST SON
+===================================================== */
+
+
+function testSound() {
+
+
+  if (
+    !initializeAudio()
+  ) {
+
+
+    alert(
+      "Le son web n'est pas disponible."
+    );
+
+
+    return;
+
+  }
+
+
+  playTone(
+    850,
+    0.32,
+    0.55
+  );
+
+}
+
+
+/* =====================================================
+   JOUER UN SON
+===================================================== */
+
+
+function playTone(
+  frequency,
+  duration,
+  volume
+) {
+
+
+  if (
+    !audioContext
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    audioContext.state ===
+    "suspended"
+  ) {
+
+    audioContext.resume();
+
+  }
+
+
+  const oscillator =
+    audioContext
+      .createOscillator();
+
+
+  const gain =
+    audioContext
+      .createGain();
+
+
+  oscillator.connect(
+    gain
+  );
+
+
+  gain.connect(
+    audioContext.destination
+  );
+
+
+  oscillator.type =
+    "sine";
+
+
+  oscillator.frequency.value =
+    frequency;
+
+
+  const now =
+    audioContext.currentTime;
+
+
+  gain.gain.setValueAtTime(
+    0.001,
+    now
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    volume,
+    now + 0.02
+  );
+
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + duration
+  );
+
+
+  oscillator.start(
+    now
+  );
+
+
+  oscillator.stop(
+    now + duration
+  );
+
+}
+
+
+/* =====================================================
+   PETITS BIPS
+===================================================== */
+
+
+function playCountdownBeep() {
+
+
+  playTone(
+    700,
+    0.18,
+    0.55
+  );
+
+}
+
+
+/* =====================================================
+   GROS BIP
+===================================================== */
+
+
+function playSignal() {
+
+
+  playTone(
+    950,
+    0.75,
+    0.9
+  );
+
+}
+
+
+/* =====================================================
+   DÉMARRER ENTRAÎNEMENT
+===================================================== */
+
+
+function startWorkout() {
+
+
+  /*
+    Le son est initialisé
+    directement par le toucher
+    de l'utilisateur.
+  */
+
+  initializeAudio();
+
+
+  onDuration =
+    Math.max(
+      1,
+      parseInt(
+        document
+          .getElementById(
             "onInput"
-          ).value
-        ) || 40
-      );
+          )
+          .value
+      )
+      || 40
+    );
 
 
-    offDuration =
-      Math.max(
-        1,
-        parseInt(
-          document.getElementById(
+  offDuration =
+    Math.max(
+      1,
+      parseInt(
+        document
+          .getElementById(
             "offInput"
-          ).value
-        ) || 20
-      );
+          )
+          .value
+      )
+      || 20
+    );
+
+
+  currentPhase =
+    "ON";
+
+
+  remainingSeconds =
+    onDuration;
+
+
+  cycles = 0;
+
+
+  elapsedSeconds = 0;
+
+
+  isPaused = false;
+
+
+  pausedElapsed = 0;
+
+
+  pauseStartTime = 0;
+
+
+  lastBeepId = null;
+
+
+  /*
+    GPS repart à zéro.
+  */
+
+  stopGPS();
+
+
+  lastPosition = null;
+
+
+  totalDistanceMeters = 0;
+
+
+  /*
+    Temps de départ.
+  */
+
+  workoutStartTime =
+    Date.now();
+
+
+  phaseEndTime =
+    Date.now()
+    +
+    onDuration * 1000;
+
+
+  document
+    .getElementById(
+      "pauseButton"
+    )
+    .textContent =
+    "PAUSE";
+
+
+  updateGPSDisplay();
+
+
+  showScreen(
+    "runningScreen"
+  );
+
+
+  updateDisplay();
+
+
+  /*
+    Démarre le GPS.
+  */
+
+  startGPS();
+
+
+  clearInterval(
+    timer
+  );
+
+
+  timer =
+    setInterval(
+      updateTimer,
+      100
+    );
+
+
+  requestKeepAwake();
+
+}
+
+
+/* =====================================================
+   CHRONO
+===================================================== */
+
+
+function updateTimer() {
+
+
+  if (
+    isPaused
+  ) {
+
+    return;
+
+  }
+
+
+  const now =
+    Date.now();
+
+
+  elapsedSeconds =
+    Math.floor(
+
+      (
+        now
+        -
+        workoutStartTime
+        -
+        pausedElapsed
+      )
+      /
+      1000
+
+    );
+
+
+  const remainingMilliseconds =
+    phaseEndTime
+    -
+    now;
+
+
+  remainingSeconds =
+    Math.max(
+
+      0,
+
+      Math.ceil(
+        remainingMilliseconds
+        /
+        1000
+      )
+
+    );
+
+
+  updateDisplay();
+
+
+  updateGPSDisplay();
+
+
+  /*
+    Bips 3 - 2 - 1
+  */
+
+  if (
+
+    remainingSeconds === 3
+    ||
+    remainingSeconds === 2
+    ||
+    remainingSeconds === 1
+
+  ) {
+
+
+    const beepId =
+
+      currentPhase
+      +
+      "-"
+      +
+      remainingSeconds
+      +
+      "-"
+      +
+      phaseEndTime;
+
+
+    if (
+      lastBeepId !== beepId
+    ) {
+
+
+      lastBeepId =
+        beepId;
+
+
+      playCountdownBeep();
+
+    }
+
+  }
+
+
+  /*
+    Fin de phase.
+  */
+
+  if (
+    remainingMilliseconds <= 0
+  ) {
+
+
+    changePhase();
+
+  }
+
+}
+
+
+/* =====================================================
+   CHANGEMENT DE PHASE
+===================================================== */
+
+
+function changePhase() {
+
+
+  playSignal();
+
+
+  if (
+    currentPhase === "ON"
+  ) {
+
+
+    currentPhase =
+      "OFF";
+
+
+    remainingSeconds =
+      offDuration;
+
+
+    phaseEndTime =
+      Date.now()
+      +
+      offDuration * 1000;
+
+
+  }
+
+  else {
 
 
     currentPhase =
@@ -1074,31 +2547,170 @@
       onDuration;
 
 
-    cycles = 0;
+    phaseEndTime =
+      Date.now()
+      +
+      onDuration * 1000;
 
 
-    elapsedSeconds = 0;
+    cycles++;
+
+  }
 
 
-    isPaused = false;
+  lastBeepId =
+    null;
 
 
-    pausedElapsed = 0;
+  updateDisplay();
+
+}
 
 
-    pauseStartTime = 0;
+/* =====================================================
+   AFFICHAGE
+===================================================== */
 
 
-    lastBeepId = null;
+function updateDisplay() {
 
 
-    workoutStartTime =
+  const phaseElement =
+    document.getElementById(
+      "phase"
+    );
+
+
+  const descriptionElement =
+    document.getElementById(
+      "phaseDescription"
+    );
+
+
+  const phaseCard =
+    document.getElementById(
+      "phaseCard"
+    );
+
+
+  phaseElement.textContent =
+    currentPhase;
+
+
+  if (
+    currentPhase === "ON"
+  ) {
+
+
+    descriptionElement.textContent =
+      "COURSE";
+
+
+    phaseCard.className =
+      "phase-card on";
+
+
+  }
+
+  else {
+
+
+    descriptionElement.textContent =
+      "RÉCUPÉRATION";
+
+
+    phaseCard.className =
+      "phase-card off";
+
+  }
+
+
+  document
+    .getElementById(
+      "countdown"
+    )
+    .textContent =
+    formatTime(
+      remainingSeconds
+    );
+
+
+  document
+    .getElementById(
+      "elapsed"
+    )
+    .textContent =
+    formatTime(
+      elapsedSeconds
+    );
+
+
+  document
+    .getElementById(
+      "cycles"
+    )
+    .textContent =
+    cycles;
+
+}
+
+
+/* =====================================================
+   PAUSE / REPRISE
+===================================================== */
+
+
+function togglePause() {
+
+
+  if (
+    !isPaused
+  ) {
+
+
+    isPaused = true;
+
+
+    pauseStartTime =
       Date.now();
 
 
-    phaseEndTime =
+    document
+      .getElementById(
+        "pauseButton"
+      )
+      .textContent =
+      "REPRENDRE";
+
+
+    document
+      .getElementById(
+        "gpsMessage"
+      )
+      .textContent =
+      "En pause";
+
+
+  }
+
+  else {
+
+
+    const pauseDuration =
       Date.now()
-      + onDuration * 1000;
+      -
+      pauseStartTime;
+
+
+    pausedElapsed +=
+      pauseDuration;
+
+
+    phaseEndTime +=
+      pauseDuration;
+
+
+    isPaused = false;
 
 
     document
@@ -1109,574 +2721,269 @@
       "PAUSE";
 
 
-    showScreen(
-      "runningScreen"
-    );
-
-
-    updateDisplay();
-
-
-    clearInterval(timer);
-
-
-    timer =
-      setInterval(
-        updateTimer,
-        100
-      );
-
-
-    requestKeepAwake();
-
-  }
-
-
-
-  /* =========================
-     MOTEUR DU CHRONO
-  ========================= */
-
-
-  function updateTimer() {
-
-
-    if (isPaused) {
-
-      return;
-
-    }
-
-
-    const now =
-      Date.now();
-
-
-    elapsedSeconds =
-      Math.floor(
-        (
-          now
-          - workoutStartTime
-          - pausedElapsed
-        ) / 1000
-      );
-
-
-    const remainingMilliseconds =
-      phaseEndTime - now;
-
-
-    remainingSeconds =
-      Math.max(
-        0,
-        Math.ceil(
-          remainingMilliseconds / 1000
-        )
-      );
-
-
-    updateDisplay();
-
-
-    /*
-      Petits bips à 3, 2 et 1.
-    */
-
-    if (
-      remainingSeconds === 3 ||
-      remainingSeconds === 2 ||
-      remainingSeconds === 1
-    ) {
-
-
-      const beepId =
-        currentPhase
-        + "-"
-        + remainingSeconds
-        + "-"
-        + phaseEndTime;
-
-
-      if (
-        lastBeepId !== beepId
-      ) {
-
-
-        lastBeepId =
-          beepId;
-
-
-        playCountdownBeep();
-
-      }
-
-    }
-
-
-    /*
-      Fin de l'intervalle.
-    */
-
-    if (
-      remainingMilliseconds <= 0
-    ) {
-
-      changePhase();
-
-    }
-
-  }
-
-
-
-  /* =========================
-     CHANGER DE PHASE
-  ========================= */
-
-
-  function changePhase() {
-
-
-    playSignal();
-
-
-    if (
-      currentPhase === "ON"
-    ) {
-
-
-      currentPhase =
-        "OFF";
-
-
-      remainingSeconds =
-        offDuration;
-
-
-      phaseEndTime =
-        Date.now()
-        + offDuration * 1000;
-
-
-    }
-
-    else {
-
-
-      currentPhase =
-        "ON";
-
-
-      remainingSeconds =
-        onDuration;
-
-
-      phaseEndTime =
-        Date.now()
-        + onDuration * 1000;
-
-
-      cycles++;
-
-    }
-
-
-    lastBeepId =
-      null;
-
-
-    updateDisplay();
-
-  }
-
-
-
-  /* =========================
-     AFFICHAGE
-  ========================= */
-
-
-  function updateDisplay() {
-
-
-    const phaseElement =
-      document.getElementById(
-        "phase"
-      );
-
-
-    const descriptionElement =
-      document.getElementById(
-        "phaseDescription"
-      );
-
-
-    const phaseCard =
-      document.getElementById(
-        "phaseCard"
-      );
-
-
-    phaseElement.textContent =
-      currentPhase;
-
-
-    if (
-      currentPhase === "ON"
-    ) {
-
-
-      descriptionElement.textContent =
-        "COURSE";
-
-
-      phaseCard.className =
-        "phase-card on";
-
-
-    }
-
-    else {
-
-
-      descriptionElement.textContent =
-        "RÉCUPÉRATION";
-
-
-      phaseCard.className =
-        "phase-card off";
-
-    }
-
-
     document
       .getElementById(
-        "countdown"
+        "gpsMessage"
       )
       .textContent =
-      formatTime(
-        remainingSeconds
-      );
+      "GPS actif";
 
-
-    document
-      .getElementById(
-        "elapsed"
-      )
-      .textContent =
-      formatTime(
-        elapsedSeconds
-      );
-
-
-    document
-      .getElementById(
-        "cycles"
-      )
-      .textContent =
-      cycles;
 
   }
 
+}
 
 
-  /* =========================
-     PAUSE
-  ========================= */
+/* =====================================================
+   STOP
+===================================================== */
 
 
-  function togglePause() {
+function stopWorkout() {
 
 
-    if (!isPaused) {
-
-
-      isPaused = true;
-
-
-      pauseStartTime =
-        Date.now();
-
-
-      document
-        .getElementById(
-          "pauseButton"
-        )
-        .textContent =
-        "REPRENDRE";
-
-    }
-
-    else {
-
-
-      const pauseDuration =
-        Date.now()
-        - pauseStartTime;
-
-
-      pausedElapsed +=
-        pauseDuration;
-
-
-      phaseEndTime +=
-        pauseDuration;
-
-
-      isPaused = false;
-
-
-      document
-        .getElementById(
-          "pauseButton"
-        ).textContent =
-        "PAUSE";
-
-    }
-
-  }
-
-
-
-  /* =========================
-     STOP
-  ========================= */
-
-
-  function stopWorkout() {
-
-
-    clearInterval(timer);
-
-
-    document
-      .getElementById(
-        "finalTime"
-      )
-      .textContent =
-      formatTime(
-        elapsedSeconds
-      );
-
-
-    document
-      .getElementById(
-        "finalCycles"
-      )
-      .textContent =
-      cycles;
-
-
-    showScreen(
-      "finishedScreen"
-    );
-
-  }
-
-
-
-  /* =========================
-     RECOMMENCER
-  ========================= */
-
-
-  function resetApp() {
-
-
-    clearInterval(timer);
-
-
-    isPaused = false;
-
-
-    showScreen(
-      "setupScreen"
-    );
-
-  }
-
-
-
-  /* =========================
-     CHANGER D'ÉCRAN
-  ========================= */
-
-
-  function showScreen(
-    screenId
-  ) {
-
-
-    document
-      .getElementById(
-        "setupScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
-
-
-    document
-      .getElementById(
-        "runningScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
-
-
-    document
-      .getElementById(
-        "finishedScreen"
-      )
-      .classList.add(
-        "hidden"
-      );
-
-
-    document
-      .getElementById(
-        screenId
-      )
-      .classList.remove(
-        "hidden"
-      );
-
-  }
-
-
-
-  /* =========================
-     PETIT BIP
-     3 - 2 - 1
-  ========================= */
-
-
-  function playCountdownBeep() {
-
-
-    playTone(
-      600,
-      0.12,
-      0.18
-    );
-
-  }
-
-
-
-  /* =========================
-     GROS SIGNAL
-  ========================= */
-
-
-  function playSignal() {
-
-
-    playTone(
-      900,
-      0.55,
-      0.4
-    );
-
-
-    /*
-      La vibration peut fonctionner
-      sur certains appareils,
-      mais iOS ne la garantit pas
-      pour une web app.
-    */
-
-    if (
-      navigator.vibrate
-    ) {
-
-
-      navigator.vibrate(
-        [200, 100, 200]
-      );
-
-    }
-
-  }
-
-
-
-  /* =========================
-     GARDER L'ÉCRAN ACTIF
-  ========================= */
-
-
-  let wakeLock = null;
-
-
-  async function requestKeepAwake() {
-
-
-    try {
-
-
-      if (
-        "wakeLock" in navigator
-      ) {
-
-
-        wakeLock =
-          await navigator
-            .wakeLock
-            .request(
-              "screen"
-            );
-
-
-        console.log(
-          "Écran maintenu actif"
-        );
-
-      }
-
-    }
-
-    catch (error) {
-
-
-      console.log(
-        "Wake Lock non disponible"
-      );
-
-    }
-
-  }
-
-
-
-  /* =========================
-     RÉACTIVER LE WAKE LOCK
-  ========================= */
-
-
-  document.addEventListener(
-    "visibilitychange",
-    function() {
-
-
-      if (
-        document.visibilityState
-        === "visible"
-        &&
-        !isPaused
-      ) {
-
-
-        requestKeepAwake();
-
-      }
-
-    }
+  clearInterval(
+    timer
   );
 
 
+  stopGPS();
+
+
+  const distanceKm =
+    totalDistanceMeters
+    /
+    1000;
+
+
+  document
+    .getElementById(
+      "finalTime"
+    )
+    .textContent =
+    formatTime(
+      elapsedSeconds
+    );
+
+
+  document
+    .getElementById(
+      "finalCycles"
+    )
+    .textContent =
+    cycles;
+
+
+  document
+    .getElementById(
+      "finalDistance"
+    )
+    .textContent =
+    distanceKm.toFixed(2)
+    +
+    " km";
+
+
+  if (
+    distanceKm >= 0.01
+  ) {
+
+
+    const averagePace =
+      elapsedSeconds
+      /
+      distanceKm;
+
+
+    document
+      .getElementById(
+        "finalPace"
+      )
+      .textContent =
+      formatPace(
+        averagePace
+      )
+      +
+      " /km";
+
+
+  }
+
+  else {
+
+
+    document
+      .getElementById(
+        "finalPace"
+      )
+      .textContent =
+      "--";
+
+  }
+
+
+  showScreen(
+    "finishedScreen"
+  );
+
+}
+
+
+/* =====================================================
+   RECOMMENCER
+===================================================== */
+
+
+function resetApp() {
+
+
+  clearInterval(
+    timer
+  );
+
+
+  stopGPS();
+
+
+  isPaused = false;
+
+
+  showScreen(
+    "setupScreen"
+  );
+
+}
+
+
+/* =====================================================
+   CHANGER D'ÉCRAN
+===================================================== */
+
+
+function showScreen(
+  screenId
+) {
+
+
+  document
+    .getElementById(
+      "setupScreen"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "runningScreen"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "finishedScreen"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      screenId
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+}
+
+
+/* =====================================================
+   WAKE LOCK
+===================================================== */
+
+
+let wakeLock = null;
+
+
+async function requestKeepAwake() {
+
+
+  try {
+
+
+    if (
+      "wakeLock" in navigator
+    ) {
+
+
+      wakeLock =
+        await navigator
+          .wakeLock
+          .request(
+            "screen"
+          );
+
+
+      console.log(
+        "Écran maintenu actif"
+      );
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+
+    console.log(
+      "Wake Lock non disponible"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   VISIBILITÉ
+===================================================== */
+
+
+document.addEventListener(
+  "visibilitychange",
+  function() {
+
+
+    if (
+
+      document.visibilityState
+      === "visible"
+
+      &&
+
+      !isPaused
+
+    ) {
+
+
+      requestKeepAwake();
+
+    }
+
+  }
+);
+
+
 </script>
+
 
 </body>
 
