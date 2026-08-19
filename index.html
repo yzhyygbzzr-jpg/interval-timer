@@ -27,6 +27,7 @@
 
 <title>Interval Timer</title>
 
+
 <style>
 
 /* =====================================================
@@ -164,7 +165,9 @@ body::after {
 
   opacity: 0.18;
 
-  transform: perspective(500px) rotateX(58deg);
+  transform:
+    perspective(500px)
+    rotateX(58deg);
 
   background:
 
@@ -220,14 +223,8 @@ body::after {
 
 
 /* =====================================================
-   ÉCRAN ACCUEIL
+   LOGO
 ===================================================== */
-
-#setupScreen {
-
-  width: 100%;
-
-}
 
 .logo {
 
@@ -260,7 +257,7 @@ body::after {
 
 
 /* =====================================================
-   CARTES RÉGLAGES
+   CARTES
 ===================================================== */
 
 .setting-card {
@@ -392,7 +389,7 @@ body::after {
 
 
 /* =====================================================
-   BOUTON DÉMARRER
+   BOUTONS
 ===================================================== */
 
 .start-button {
@@ -427,11 +424,6 @@ body::after {
 
 }
 
-
-/* =====================================================
-   TEST SON
-===================================================== */
-
 .sound-button {
 
   display: block;
@@ -454,27 +446,32 @@ body::after {
 
 }
 
+.history-button {
 
-/* =====================================================
-   EFFET BOUTONS
-===================================================== */
+  width: 100%;
 
-button {
+  border: 1px solid rgba(255,255,255,0.12);
 
-  -webkit-tap-highlight-color:
-    transparent;
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  padding: 16px;
+
+  margin-top: 8px;
 
 }
 
-button:active {
-
-  transform: scale(0.97);
-
-}
-
 
 /* =====================================================
-   ÉCRAN ENTRAÎNEMENT
+   ENTRAÎNEMENT
 ===================================================== */
 
 #runningScreen {
@@ -525,7 +522,7 @@ button:active {
 
 
 /* =====================================================
-   CARTE PRINCIPALE
+   CARTE PHASE
 ===================================================== */
 
 .phase-card {
@@ -550,10 +547,6 @@ button:active {
 
   -webkit-backdrop-filter:
     blur(18px);
-
-  transition:
-    background 0.25s ease,
-    border-color 0.25s ease;
 
 }
 
@@ -581,7 +574,6 @@ button:active {
 .phase-card.on {
 
   background:
-
     linear-gradient(
       145deg,
       rgba(24,105,75,0.72),
@@ -596,7 +588,6 @@ button:active {
 .phase-card.off {
 
   background:
-
     linear-gradient(
       145deg,
       rgba(36,80,145,0.72),
@@ -663,7 +654,7 @@ button:active {
 
 
 /* =====================================================
-   STATS GPS
+   STATS
 ===================================================== */
 
 .stats-grid {
@@ -703,8 +694,6 @@ button:active {
 
   text-transform: uppercase;
 
-  letter-spacing: .5px;
-
 }
 
 .stat-value {
@@ -724,11 +713,6 @@ button:active {
   color: #8d99aa;
 
 }
-
-
-/* =====================================================
-   STATS SECONDAIRES
-===================================================== */
 
 .secondary-stats {
 
@@ -780,11 +764,6 @@ button:active {
   margin-top: 3px;
 
 }
-
-
-/* =====================================================
-   MESSAGE GPS
-===================================================== */
 
 .gps-message {
 
@@ -858,12 +837,6 @@ button:active {
    ÉCRAN TERMINÉ
 ===================================================== */
 
-#finishedScreen {
-
-  text-align: center;
-
-}
-
 .finished-card {
 
   background:
@@ -892,6 +865,8 @@ button:active {
 }
 
 .finished-title {
+
+  text-align: center;
 
   font-size: 36px;
 
@@ -926,6 +901,8 @@ button:active {
 
   padding: 17px 8px;
 
+  text-align: center;
+
 }
 
 .result-label {
@@ -950,9 +927,20 @@ button:active {
 
 }
 
-.restart-button {
+.finished-actions {
 
-  width: 100%;
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 9px;
+
+  margin-top: 18px;
+
+}
+
+.save-button {
 
   border: none;
 
@@ -967,24 +955,419 @@ button:active {
 
   color: #111522;
 
-  font-size: 17px;
+  font-size: 15px;
 
   font-weight: 900;
 
-  padding: 18px;
+  padding: 17px 8px;
 
-  margin-top: 18px;
+}
+
+.no-save-button {
+
+  border:
+    1px solid rgba(255,255,255,0.10);
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: #ffffff;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  padding: 17px 8px;
+
+}
+
+.restart-button {
+
+  width: 100%;
+
+  border: none;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  padding: 16px;
+
+  margin-top: 10px;
 
 }
 
 
 /* =====================================================
-   CACHÉ
+   HISTORIQUE
+===================================================== */
+
+.history-title {
+
+  text-align: center;
+
+  font-size: 30px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  margin-bottom: 8px;
+
+}
+
+.history-subtitle {
+
+  text-align: center;
+
+  color: #929db0;
+
+  font-size: 13px;
+
+  margin-bottom: 18px;
+
+}
+
+.history-list {
+
+  width: 100%;
+
+  max-height: 58vh;
+
+  overflow-y: auto;
+
+  padding-right: 2px;
+
+}
+
+.history-item {
+
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.10),
+      rgba(255,255,255,0.045)
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.10);
+
+  border-radius: 20px;
+
+  padding: 16px;
+
+  margin-bottom: 9px;
+
+}
+
+.history-date {
+
+  color: #aab4c5;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  margin-bottom: 8px;
+
+}
+
+.history-main {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+}
+
+.history-distance {
+
+  font-size: 26px;
+
+  font-weight: 900;
+
+}
+
+.history-time {
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  text-align: right;
+
+}
+
+.history-details {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 6px;
+
+  margin-top: 12px;
+
+}
+
+.history-detail {
+
+  background:
+    rgba(0,0,0,0.15);
+
+  border-radius: 11px;
+
+  padding: 8px 3px;
+
+  text-align: center;
+
+}
+
+.history-detail-label {
+
+  color: #8995a8;
+
+  font-size: 9px;
+
+  text-transform: uppercase;
+
+}
+
+.history-detail-value {
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  margin-top: 2px;
+
+}
+
+.delete-run-button {
+
+  position: absolute;
+
+  top: 9px;
+
+  right: 10px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #8c96a8;
+
+  font-size: 17px;
+
+  padding: 3px;
+
+}
+
+.empty-history {
+
+  text-align: center;
+
+  color: #929db0;
+
+  padding: 35px 15px;
+
+  line-height: 1.6;
+
+}
+
+.back-button {
+
+  width: 100%;
+
+  border:
+    1px solid rgba(255,255,255,0.10);
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: #ffffff;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  padding: 16px;
+
+  margin-top: 10px;
+
+}
+
+
+/* =====================================================
+   MODALE
+===================================================== */
+
+.modal {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 100;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 22px;
+
+  background:
+    rgba(5,8,18,0.70);
+
+  backdrop-filter:
+    blur(12px);
+
+  -webkit-backdrop-filter:
+    blur(12px);
+
+}
+
+.modal-card {
+
+  width: 100%;
+
+  max-width: 390px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #202943,
+      #151b2f
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.12);
+
+  border-radius: 26px;
+
+  padding: 25px;
+
+  box-shadow:
+    0 25px 80px rgba(0,0,0,0.45);
+
+}
+
+.modal-title {
+
+  font-size: 23px;
+
+  font-weight: 900;
+
+  text-align: center;
+
+}
+
+.modal-text {
+
+  color: #aeb8ca;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  line-height: 1.5;
+
+  margin:
+    10px 0 20px;
+
+}
+
+.modal-actions {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 9px;
+
+}
+
+.modal-save {
+
+  border: none;
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #dce8ff
+    );
+
+  color: #111522;
+
+  padding: 15px 8px;
+
+  font-weight: 900;
+
+}
+
+.modal-no {
+
+  border:
+    1px solid rgba(255,255,255,0.10);
+
+  border-radius: 16px;
+
+  background:
+    rgba(255,255,255,0.08);
+
+  color: #ffffff;
+
+  padding: 15px 8px;
+
+  font-weight: 800;
+
+}
+
+
+/* =====================================================
+   UTILITAIRE
 ===================================================== */
 
 .hidden {
 
   display: none !important;
+
+}
+
+button {
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+  cursor: pointer;
+
+}
+
+button:active {
+
+  transform: scale(0.97);
 
 }
 
@@ -1023,12 +1406,6 @@ button:active {
   }
 
 }
-
-
-/* =====================================================
-   IMPORTANT :
-   AUCUN MESSAGE D'ORIENTATION
-===================================================== */
 
 </style>
 
@@ -1139,11 +1516,21 @@ button:active {
 
 
   <button
+    class="history-button"
+    onclick="showHistory()"
+  >
+
+    HISTORIQUE
+
+  </button>
+
+
+  <button
     class="sound-button"
     onclick="testSound()"
   >
 
-    🔊 Tester le son
+    Tester le son
 
   </button>
 
@@ -1218,11 +1605,9 @@ button:active {
 
       <div class="stat">
 
-
         <div class="stat-label">
           Distance
         </div>
-
 
         <div
           id="distance"
@@ -1231,11 +1616,9 @@ button:active {
           0.00
         </div>
 
-
         <span class="stat-unit">
           km
         </span>
-
 
       </div>
 
@@ -1243,11 +1626,9 @@ button:active {
 
       <div class="stat">
 
-
         <div class="stat-label">
           Allure
         </div>
-
 
         <div
           id="pace"
@@ -1256,11 +1637,9 @@ button:active {
           --
         </div>
 
-
         <span class="stat-unit">
           /km
         </span>
-
 
       </div>
 
@@ -1268,11 +1647,9 @@ button:active {
 
       <div class="stat">
 
-
         <div class="stat-label">
           Vitesse
         </div>
-
 
         <div
           id="speed"
@@ -1281,11 +1658,9 @@ button:active {
           --
         </div>
 
-
         <span class="stat-unit">
           km/h
         </span>
-
 
       </div>
 
@@ -1299,11 +1674,9 @@ button:active {
 
       <div class="secondary-stat">
 
-
         <div class="secondary-label">
           Temps
         </div>
-
 
         <div
           id="elapsed"
@@ -1312,18 +1685,15 @@ button:active {
           00:00
         </div>
 
-
       </div>
 
 
 
       <div class="secondary-stat">
 
-
         <div class="secondary-label">
           Cycles
         </div>
-
 
         <div
           id="cycles"
@@ -1331,7 +1701,6 @@ button:active {
         >
           0
         </div>
-
 
       </div>
 
@@ -1360,7 +1729,9 @@ button:active {
       class="control-button pause-button"
       onclick="togglePause()"
     >
+
       PAUSE
+
     </button>
 
 
@@ -1368,7 +1739,9 @@ button:active {
       class="control-button stop-button"
       onclick="stopWorkout()"
     >
+
       STOP
+
     </button>
 
 
@@ -1380,7 +1753,7 @@ button:active {
 
 
 <!-- ===================================================
-     TERMINÉ
+     ÉCRAN TERMINÉ
 =================================================== -->
 
 <div
@@ -1403,11 +1776,9 @@ button:active {
 
       <div class="result-box">
 
-
         <div class="result-label">
           Temps
         </div>
-
 
         <div
           id="finalTime"
@@ -1416,18 +1787,15 @@ button:active {
           00:00
         </div>
 
-
       </div>
 
 
 
       <div class="result-box">
 
-
         <div class="result-label">
           Cycles
         </div>
-
 
         <div
           id="finalCycles"
@@ -1436,18 +1804,15 @@ button:active {
           0
         </div>
 
-
       </div>
 
 
 
       <div class="result-box">
 
-
         <div class="result-label">
           Distance
         </div>
-
 
         <div
           id="finalDistance"
@@ -1456,18 +1821,15 @@ button:active {
           0.00 km
         </div>
 
-
       </div>
 
 
 
       <div class="result-box">
 
-
         <div class="result-label">
           Allure moyenne
         </div>
-
 
         <div
           id="finalPace"
@@ -1476,8 +1838,34 @@ button:active {
           --
         </div>
 
-
       </div>
+
+
+    </div>
+
+
+
+    <div class="finished-actions">
+
+
+      <button
+        class="save-button"
+        onclick="saveCurrentRun()"
+      >
+
+        ENREGISTRER
+
+      </button>
+
+
+      <button
+        class="no-save-button"
+        onclick="discardCurrentRun()"
+      >
+
+        NE PAS ENREGISTRER
+
+      </button>
 
 
     </div>
@@ -1498,6 +1886,44 @@ button:active {
 
 
 </div>
+
+
+
+<!-- ===================================================
+     HISTORIQUE
+=================================================== -->
+
+<div
+  id="historyScreen"
+  class="hidden"
+>
+
+
+  <div class="history-title">
+    MES COURSES
+  </div>
+
+
+  <div class="history-subtitle">
+    Tes entraînements enregistrés sur cet appareil
+  </div>
+
+
+  <div
+    id="historyList"
+    class="history-list"
+  >
+  </div>
+
+
+  <button
+    class="back-button"
+    onclick="showScreen('setupScreen')"
+  >
+
+    RETOUR
+
+  </button>
 
 
 </div>
@@ -1549,6 +1975,11 @@ let gpsWatchId = null;
 let lastPosition = null;
 
 let totalDistanceMeters = 0;
+
+
+/* COURSE EN COURS */
+
+let currentRun = null;
 
 
 /* =====================================================
@@ -1640,7 +2071,10 @@ function formatPace(
     +
 
     String(seconds)
-      .padStart(2, "0")
+      .padStart(
+        2,
+        "0"
+      )
 
   );
 
@@ -2207,7 +2641,7 @@ function playTone(
 
 
 /* =====================================================
-   PETIT BIP
+   PETIT BIP - 3, 2, 1
 ===================================================== */
 
 function playCountdownBeep() {
@@ -2222,22 +2656,23 @@ function playCountdownBeep() {
 
 
 /* =====================================================
-   GROS BIP
+   VRAI BIP DE FIN DE CYCLE
+   DEUX FOIS PLUS LONG
 ===================================================== */
 
 function playSignal() {
 
   playTone(
     950,
-    0.80,
-    1.0
+    2.20,
+    1.35
   );
 
 }
 
 
 /* =====================================================
-   DÉMARRER
+   DÉMARRER COURSE
 ===================================================== */
 
 function startWorkout() {
@@ -2301,6 +2736,8 @@ function startWorkout() {
     Date.now()
     +
     onDuration * 1000;
+
+  currentRun = null;
 
   document
     .getElementById(
@@ -2389,11 +2826,6 @@ function updateTimer() {
   updateGPSDisplay();
 
 
-  /*
-     3, 2, 1 :
-     trois petits bips.
-  */
-
   if (
 
     remainingSeconds === 3
@@ -2429,10 +2861,6 @@ function updateTimer() {
 
   }
 
-
-  /*
-     Fin de l'intervalle.
-  */
 
   if (
     remainingMilliseconds <= 0
@@ -2635,6 +3063,83 @@ function togglePause() {
 
 
 /* =====================================================
+   CRÉER DONNÉES COURSE
+===================================================== */
+
+function createCurrentRun() {
+
+  const distanceKm =
+    totalDistanceMeters
+    /
+    1000;
+
+  let pace =
+    null;
+
+  let speed =
+    null;
+
+  if (
+    distanceKm >= 0.01
+    &&
+    elapsedSeconds > 0
+  ) {
+
+    pace =
+      elapsedSeconds
+      /
+      distanceKm;
+
+    speed =
+      distanceKm
+      /
+      (
+        elapsedSeconds
+        /
+        3600
+      );
+
+  }
+
+  return {
+
+    id:
+      Date.now(),
+
+    date:
+      new Date().toISOString(),
+
+    duration:
+      elapsedSeconds,
+
+    cycles:
+      cycles,
+
+    distance:
+      Number(
+        distanceKm.toFixed(2)
+      ),
+
+    pace:
+      pace !== null
+        ? Number(
+            pace.toFixed(1)
+          )
+        : null,
+
+    speed:
+      speed !== null
+        ? Number(
+            speed.toFixed(1)
+          )
+        : null
+
+  };
+
+}
+
+
+/* =====================================================
    STOP
 ===================================================== */
 
@@ -2646,68 +3151,12 @@ function stopWorkout() {
 
   stopGPS();
 
-  const distanceKm =
-    totalDistanceMeters
-    /
-    1000;
+  currentRun =
+    createCurrentRun();
 
-  document
-    .getElementById(
-      "finalTime"
-    )
-    .textContent =
-    formatTime(
-      elapsedSeconds
-    );
-
-  document
-    .getElementById(
-      "finalCycles"
-    )
-    .textContent =
-    cycles;
-
-  document
-    .getElementById(
-      "finalDistance"
-    )
-    .textContent =
-    distanceKm.toFixed(2)
-    +
-    " km";
-
-  if (
-    distanceKm >= 0.01
-  ) {
-
-    const pace =
-      elapsedSeconds
-      /
-      distanceKm;
-
-    document
-      .getElementById(
-        "finalPace"
-      )
-      .textContent =
-      formatPace(
-        pace
-      )
-      +
-      " /km";
-
-  }
-
-  else {
-
-    document
-      .getElementById(
-        "finalPace"
-      )
-      .textContent =
-      "--";
-
-  }
+  displayFinalResults(
+    currentRun
+  );
 
   showScreen(
     "finishedScreen"
@@ -2717,7 +3166,489 @@ function stopWorkout() {
 
 
 /* =====================================================
-   RECOMMENCER
+   AFFICHER RÉSULTATS
+===================================================== */
+
+function displayFinalResults(
+  run
+) {
+
+  document
+    .getElementById(
+      "finalTime"
+    )
+    .textContent =
+    formatTime(
+      run.duration
+    );
+
+  document
+    .getElementById(
+      "finalCycles"
+    )
+    .textContent =
+    run.cycles;
+
+  document
+    .getElementById(
+      "finalDistance"
+    )
+    .textContent =
+    run.distance.toFixed(2)
+    +
+    " km";
+
+  document
+    .getElementById(
+      "finalPace"
+    )
+    .textContent =
+
+    run.pace !== null
+
+      ? formatPace(
+          run.pace
+        )
+        +
+        " /km"
+
+      : "--";
+
+}
+
+
+/* =====================================================
+   ENREGISTRER COURSE
+===================================================== */
+
+function saveCurrentRun() {
+
+  if (
+    !currentRun
+  ) {
+
+    return;
+
+  }
+
+  const runs =
+    getSavedRuns();
+
+  runs.unshift(
+    currentRun
+  );
+
+  saveRuns(
+    runs
+  );
+
+  currentRun = null;
+
+  alert(
+    "Course enregistrée."
+  );
+
+  showScreen(
+    "setupScreen"
+  );
+
+}
+
+
+/* =====================================================
+   NE PAS ENREGISTRER
+===================================================== */
+
+function discardCurrentRun() {
+
+  currentRun = null;
+
+  showScreen(
+    "setupScreen"
+  );
+
+}
+
+
+/* =====================================================
+   HISTORIQUE
+===================================================== */
+
+function getSavedRuns() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        "intervalTimerRuns"
+      );
+
+    if (
+      !saved
+    ) {
+
+      return [];
+
+    }
+
+    const runs =
+      JSON.parse(
+        saved
+      );
+
+    return Array.isArray(
+      runs
+    )
+      ? runs
+      : [];
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.log(
+      "Erreur historique",
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+
+/* =====================================================
+   SAUVEGARDER HISTORIQUE
+===================================================== */
+
+function saveRuns(
+  runs
+) {
+
+  try {
+
+    localStorage.setItem(
+      "intervalTimerRuns",
+      JSON.stringify(
+        runs
+      )
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    alert(
+      "Impossible de sauvegarder la course."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   AFFICHER HISTORIQUE
+===================================================== */
+
+function showHistory() {
+
+  renderHistory();
+
+  showScreen(
+    "historyScreen"
+  );
+
+}
+
+
+/* =====================================================
+   AFFICHER LISTE
+===================================================== */
+
+function renderHistory() {
+
+  const container =
+    document.getElementById(
+      "historyList"
+    );
+
+  const runs =
+    getSavedRuns();
+
+  if (
+    runs.length === 0
+  ) {
+
+    container.innerHTML =
+
+      '<div class="empty-history">' +
+
+      'Aucune course enregistrée.<br><br>' +
+
+      'Après une course, appuie sur ' +
+      '<strong>ENREGISTRER</strong> ' +
+      'pour la conserver ici.' +
+
+      '</div>';
+
+    return;
+
+  }
+
+  container.innerHTML =
+    "";
+
+  runs.forEach(
+    function(
+      run,
+      index
+    ) {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+      item.className =
+        "history-item";
+
+      const date =
+        new Date(
+          run.date
+        );
+
+      const formattedDate =
+        formatDate(
+          date
+        );
+
+      const paceText =
+        run.pace !== null
+
+          ? formatPace(
+              run.pace
+            )
+
+          : "--";
+
+      const speedText =
+        run.speed !== null
+
+          ? run.speed.toFixed(1)
+
+          : "--";
+
+      item.innerHTML =
+
+        '<button ' +
+
+        'class="delete-run-button" ' +
+
+        'onclick="deleteRun(' +
+        index +
+        ')"' +
+
+        '>×</button>' +
+
+        '<div class="history-date">' +
+
+        formattedDate +
+
+        '</div>' +
+
+        '<div class="history-main">' +
+
+        '<div class="history-distance">' +
+
+        run.distance.toFixed(2) +
+
+        ' km' +
+
+        '</div>' +
+
+        '<div class="history-time">' +
+
+        formatTime(
+          run.duration
+        ) +
+
+        '</div>' +
+
+        '</div>' +
+
+        '<div class="history-details">' +
+
+        '<div class="history-detail">' +
+
+        '<div class="history-detail-label">' +
+        'Allure' +
+        '</div>' +
+
+        '<div class="history-detail-value">' +
+
+        paceText +
+
+        '</div>' +
+
+        '</div>' +
+
+        '<div class="history-detail">' +
+
+        '<div class="history-detail-label">' +
+        'Vitesse' +
+        '</div>' +
+
+        '<div class="history-detail-value">' +
+
+        speedText +
+
+        ' km/h' +
+
+        '</div>' +
+
+        '</div>' +
+
+        '<div class="history-detail">' +
+
+        '<div class="history-detail-label">' +
+        'Cycles' +
+        '</div>' +
+
+        '<div class="history-detail-value">' +
+
+        run.cycles +
+
+        '</div>' +
+
+        '</div>' +
+
+        '</div>';
+
+      container.appendChild(
+        item
+      );
+
+    }
+
+  );
+
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function formatDate(
+  date
+) {
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const year =
+    date.getFullYear();
+
+  const hours =
+    String(
+      date.getHours()
+    ).padStart(
+      2,
+      "0"
+    );
+
+  const minutes =
+    String(
+      date.getMinutes()
+    ).padStart(
+      2,
+      "0"
+    );
+
+  return (
+
+    day
+    +
+    "/"
+    +
+    month
+    +
+    "/"
+    +
+    year
+    +
+    " à "
+    +
+    hours
+    +
+    ":"
+    +
+    minutes
+
+  );
+
+}
+
+
+/* =====================================================
+   SUPPRIMER COURSE
+===================================================== */
+
+function deleteRun(
+  index
+) {
+
+  const confirmed =
+    confirm(
+      "Supprimer cette course de l'historique ?"
+    );
+
+  if (
+    !confirmed
+  ) {
+
+    return;
+
+  }
+
+  const runs =
+    getSavedRuns();
+
+  runs.splice(
+    index,
+    1
+  );
+
+  saveRuns(
+    runs
+  );
+
+  renderHistory();
+
+}
+
+
+/* =====================================================
+   RESET
 ===================================================== */
 
 function resetApp() {
@@ -2727,6 +3658,8 @@ function resetApp() {
   );
 
   stopGPS();
+
+  currentRun = null;
 
   isPaused = false;
 
@@ -2764,6 +3697,14 @@ function showScreen(
   document
     .getElementById(
       "finishedScreen"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  document
+    .getElementById(
+      "historyScreen"
     )
     .classList.add(
       "hidden"
@@ -2844,7 +3785,17 @@ document.addEventListener(
   }
 );
 
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+showScreen(
+  "setupScreen"
+);
+
 </script>
+
 
 </body>
 
