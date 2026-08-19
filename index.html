@@ -27,26 +27,27 @@
 
 <title>Interval Timer</title>
 
-
 <style>
 
-/* =========================
-   BASE
-========================= */
+/* =====================================================
+   RESET
+===================================================== */
 
 * {
   box-sizing: border-box;
 }
 
-
 html,
 body {
-
   margin: 0;
-
+  padding: 0;
   width: 100%;
-
   min-height: 100%;
+}
+
+body {
+
+  color: #ffffff;
 
   font-family:
     -apple-system,
@@ -56,41 +57,154 @@ body {
     Arial,
     sans-serif;
 
-  background: #0b0d10;
-
-  color: white;
-
   -webkit-user-select: none;
-
   user-select: none;
 
-}
+  background:
 
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(72, 102, 255, 0.30),
+      transparent 32%
+    ),
 
-/* =========================
-   APPLICATION
-========================= */
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(157, 67, 255, 0.25),
+      transparent 30%
+    ),
 
-body {
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(0, 193, 255, 0.18),
+      transparent 38%
+    ),
+
+    linear-gradient(
+      145deg,
+      #11182e 0%,
+      #17152d 45%,
+      #0c1930 100%
+    );
+
+  background-attachment: fixed;
+
+  overflow-x: hidden;
 
   min-height: 100vh;
-
   min-height: 100dvh;
-
 }
 
 
+/* =====================================================
+   TEXTURE URBAINE
+===================================================== */
+
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.28;
+
+  background:
+
+    linear-gradient(
+      112deg,
+      transparent 0%,
+      transparent 42%,
+      rgba(255,255,255,0.035) 42.2%,
+      transparent 42.5%
+    ),
+
+    linear-gradient(
+      68deg,
+      transparent 0%,
+      transparent 57%,
+      rgba(255,255,255,0.025) 57.2%,
+      transparent 57.5%
+    ),
+
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 46px,
+      rgba(255,255,255,0.018) 47px,
+      transparent 48px
+    );
+
+  z-index: 0;
+}
+
+
+/* =====================================================
+   LIGNES DE VITESSE
+===================================================== */
+
+body::after {
+
+  content: "";
+
+  position: fixed;
+
+  width: 140vw;
+
+  height: 45vh;
+
+  left: -20vw;
+
+  bottom: -20vh;
+
+  pointer-events: none;
+
+  opacity: 0.18;
+
+  transform: perspective(500px) rotateX(58deg);
+
+  background:
+
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 42px,
+      rgba(96, 176, 255, 0.30) 43px,
+      transparent 45px
+    );
+
+  mask-image:
+    linear-gradient(
+      to top,
+      black,
+      transparent
+    );
+
+  z-index: 0;
+}
+
+
+/* =====================================================
+   APPLICATION
+===================================================== */
+
 .app {
+
+  position: relative;
+
+  z-index: 1;
 
   width: 100%;
 
   max-width: 520px;
 
   min-height: 100vh;
-
   min-height: 100dvh;
 
-  margin: auto;
+  margin: 0 auto;
 
   padding:
     max(20px, env(safe-area-inset-top))
@@ -102,100 +216,12 @@ body {
   flex-direction: column;
 
   justify-content: center;
-
 }
 
 
-/* =========================
-   PAYSAGE
-========================= */
-
-.landscape-warning {
-
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 9999;
-
-  display: none;
-
-  background: #0b0d10;
-
-  color: white;
-
-  align-items: center;
-
-  justify-content: center;
-
-  text-align: center;
-
-  padding: 30px;
-
-}
-
-
-.landscape-warning-inner {
-
-  max-width: 320px;
-
-}
-
-
-.landscape-icon {
-
-  font-size: 60px;
-
-  margin-bottom: 20px;
-
-}
-
-
-.landscape-title {
-
-  font-size: 25px;
-
-  font-weight: 800;
-
-  margin-bottom: 10px;
-
-}
-
-
-.landscape-text {
-
-  color: #a7adb5;
-
-  font-size: 16px;
-
-  line-height: 1.5;
-
-}
-
-
-/*
-  Safari iPhone ne permet pas
-  de verrouiller réellement l'écran
-  par JavaScript.
-  On affiche donc un écran de rappel.
-*/
-
-@media (
-  orientation: landscape
-) {
-
-  .landscape-warning {
-
-    display: flex;
-
-  }
-
-}
-
-
-/* =========================
-   ÉCRAN D'ACCUEIL
-========================= */
+/* =====================================================
+   ÉCRAN ACCUEIL
+===================================================== */
 
 #setupScreen {
 
@@ -203,46 +229,64 @@ body {
 
 }
 
-
 .logo {
 
   text-align: center;
 
-  font-size: 28px;
+  font-size: 29px;
 
   font-weight: 900;
 
   letter-spacing: 3px;
 
-  margin-bottom: 8px;
+  text-shadow:
+    0 4px 25px rgba(100,150,255,0.25);
 
 }
-
 
 .subtitle {
 
   text-align: center;
 
-  color: #8d949e;
+  color: #aeb8cb;
 
   font-size: 14px;
 
-  margin-bottom: 32px;
+  margin-top: 7px;
+
+  margin-bottom: 30px;
 
 }
 
 
-/* =========================
-   CARTES DE RÉGLAGE
-========================= */
+/* =====================================================
+   CARTES RÉGLAGES
+===================================================== */
 
 .setting-card {
 
+  position: relative;
+
+  overflow: hidden;
+
   background:
-    #15181d;
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.10),
+      rgba(255,255,255,0.045)
+    );
 
   border:
-    1px solid #242830;
+    1px solid rgba(255,255,255,0.11);
+
+  box-shadow:
+    0 14px 40px rgba(0,0,0,0.18);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
 
   border-radius: 24px;
 
@@ -252,8 +296,32 @@ body {
 
 }
 
+.setting-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+
+  height: 130px;
+
+  right: -70px;
+
+  top: -70px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(100,140,255,0.10);
+
+}
 
 .setting-top {
+
+  position: relative;
+
+  z-index: 1;
 
   display: flex;
 
@@ -263,19 +331,17 @@ body {
 
 }
 
-
 .setting-label {
 
   font-size: 17px;
 
-  font-weight: 800;
+  font-weight: 850;
 
 }
 
-
 .setting-description {
 
-  color: #8d949e;
+  color: #8f9bb0;
 
   font-size: 13px;
 
@@ -283,42 +349,40 @@ body {
 
 }
 
-
 .on-label {
 
-  color: #48d597;
+  color: #62e6a7;
 
 }
-
 
 .off-label {
 
-  color: #5797ff;
+  color: #6da5ff;
 
 }
 
-
 .time-input {
 
-  width: 105px;
+  width: 108px;
 
   border: none;
 
   outline: none;
 
-  background: #22262d;
+  background:
+    rgba(255,255,255,0.10);
 
-  color: white;
+  color: #ffffff;
 
   border-radius: 16px;
 
   text-align: center;
 
-  font-size: 32px;
+  font-size: 31px;
 
-  font-weight: 800;
+  font-weight: 850;
 
-  padding: 12px 5px;
+  padding: 11px 5px;
 
   -webkit-user-select: text;
 
@@ -327,9 +391,9 @@ body {
 }
 
 
-/* =========================
-   BOUTONS
-========================= */
+/* =====================================================
+   BOUTON DÉMARRER
+===================================================== */
 
 .start-button {
 
@@ -339,9 +403,14 @@ body {
 
   border-radius: 20px;
 
-  background: white;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #dce8ff
+    );
 
-  color: #0b0d10;
+  color: #101522;
 
   font-size: 19px;
 
@@ -349,35 +418,53 @@ body {
 
   padding: 19px;
 
-  margin-top: 10px;
+  margin-top: 9px;
 
   cursor: pointer;
 
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.20);
+
 }
 
+
+/* =====================================================
+   TEST SON
+===================================================== */
 
 .sound-button {
 
   display: block;
 
-  margin: 12px auto 0;
+  margin: 9px auto 0;
+
+  padding: 7px 12px;
 
   border: none;
 
   background: transparent;
 
-  color: #8d949e;
+  color: #8d99ad;
 
-  font-size: 13px;
+  font-size: 12px;
 
   font-weight: 600;
-
-  padding: 7px 12px;
 
   cursor: pointer;
 
 }
 
+
+/* =====================================================
+   EFFET BOUTONS
+===================================================== */
+
+button {
+
+  -webkit-tap-highlight-color:
+    transparent;
+
+}
 
 button:active {
 
@@ -386,9 +473,9 @@ button:active {
 }
 
 
-/* =========================
-   ENTRAÎNEMENT
-========================= */
+/* =====================================================
+   ÉCRAN ENTRAÎNEMENT
+===================================================== */
 
 #runningScreen {
 
@@ -396,19 +483,17 @@ button:active {
 
 }
 
-
 .run-header {
 
   display: flex;
 
-  justify-content: space-between;
-
   align-items: center;
 
-  margin-bottom: 14px;
+  justify-content: space-between;
+
+  margin-bottom: 12px;
 
 }
-
 
 .app-name-small {
 
@@ -418,10 +503,9 @@ button:active {
 
   letter-spacing: 1.5px;
 
-  color: #7e858f;
+  color: #8996ac;
 
 }
-
 
 .gps-status {
 
@@ -429,72 +513,106 @@ button:active {
 
   font-weight: 700;
 
-  color: #8d949e;
+  color: #8996ac;
 
 }
-
 
 .gps-status.active {
 
-  color: #48d597;
+  color: #62e6a7;
 
 }
 
 
-/* =========================
-   PHASE
-========================= */
+/* =====================================================
+   CARTE PRINCIPALE
+===================================================== */
 
 .phase-card {
 
+  position: relative;
+
+  overflow: hidden;
+
   border-radius: 32px;
 
-  padding: 25px 20px 22px;
+  padding: 25px 18px 20px;
 
   text-align: center;
 
-  transition:
-    background 0.25s,
-    border-color 0.25s;
-
   border: 1px solid transparent;
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,0.22);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
 
 }
 
+.phase-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+
+  height: 220px;
+
+  border-radius: 50%;
+
+  right: -110px;
+
+  top: -110px;
+
+  background:
+    rgba(255,255,255,0.055);
+
+}
 
 .phase-card.on {
 
   background:
+
     linear-gradient(
       145deg,
-      #153e2c,
-      #10261e
+      rgba(24,105,75,0.72),
+      rgba(13,55,42,0.76)
     );
 
   border-color:
-    #245f44;
+    rgba(90,232,165,0.27);
 
 }
-
 
 .phase-card.off {
 
   background:
+
     linear-gradient(
       145deg,
-      #162f54,
-      #101e33
+      rgba(36,80,145,0.72),
+      rgba(18,39,77,0.78)
     );
 
   border-color:
-    #28558c;
+    rgba(100,160,255,0.27);
 
 }
 
-
 .phase {
 
-  font-size: 27px;
+  position: relative;
+
+  font-size: 28px;
 
   font-weight: 900;
 
@@ -502,12 +620,13 @@ button:active {
 
 }
 
-
 .phase-description {
 
-  color: #aeb5bf;
+  position: relative;
 
-  font-size: 13px;
+  color: #bdc6d4;
+
+  font-size: 12px;
 
   margin-top: 3px;
 
@@ -517,8 +636,9 @@ button:active {
 
 }
 
-
 .countdown {
+
+  position: relative;
 
   font-size:
     clamp(
@@ -534,18 +654,21 @@ button:active {
   letter-spacing: -5px;
 
   margin:
-    27px
-    0
-    20px;
+    27px 0 21px;
+
+  text-shadow:
+    0 6px 30px rgba(0,0,0,0.22);
 
 }
 
 
-/* =========================
-   STATISTIQUES GPS
-========================= */
+/* =====================================================
+   STATS GPS
+===================================================== */
 
 .stats-grid {
+
+  position: relative;
 
   display: grid;
 
@@ -556,29 +679,25 @@ button:active {
 
 }
 
-
 .stat {
 
   background:
-    rgba(
-      255,
-      255,
-      255,
-      0.055
-    );
+    rgba(0,0,0,0.16);
+
+  border:
+    1px solid rgba(255,255,255,0.07);
 
   border-radius: 16px;
 
-  padding: 12px 5px;
+  padding: 12px 4px;
 
 }
 
-
 .stat-label {
 
-  color: #858c96;
+  color: #aeb8c8;
 
-  font-size: 11px;
+  font-size: 10px;
 
   font-weight: 700;
 
@@ -587,7 +706,6 @@ button:active {
   letter-spacing: .5px;
 
 }
-
 
 .stat-value {
 
@@ -599,23 +717,22 @@ button:active {
 
 }
 
-
 .stat-unit {
 
-  font-size: 11px;
+  font-size: 10px;
 
-  color: #858c96;
-
-  margin-left: 2px;
+  color: #8d99aa;
 
 }
 
 
-/* =========================
-   INFOS SECONDAIRES
-========================= */
+/* =====================================================
+   STATS SECONDAIRES
+===================================================== */
 
 .secondary-stats {
+
+  position: relative;
 
   display: grid;
 
@@ -628,14 +745,13 @@ button:active {
 
 }
 
-
 .secondary-stat {
 
   background:
-    #15181d;
+    rgba(255,255,255,0.065);
 
   border:
-    1px solid #242830;
+    1px solid rgba(255,255,255,0.08);
 
   border-radius: 16px;
 
@@ -645,17 +761,15 @@ button:active {
 
 }
 
-
 .secondary-label {
 
-  color: #858c96;
+  color: #a2adbd;
 
   font-size: 11px;
 
   font-weight: 700;
 
 }
-
 
 .secondary-value {
 
@@ -668,9 +782,28 @@ button:active {
 }
 
 
-/* =========================
-   CONTRÔLES
-========================= */
+/* =====================================================
+   MESSAGE GPS
+===================================================== */
+
+.gps-message {
+
+  text-align: center;
+
+  color: #8f9bb0;
+
+  font-size: 12px;
+
+  margin-top: 9px;
+
+  line-height: 1.4;
+
+}
+
+
+/* =====================================================
+   CONTROLES
+===================================================== */
 
 .controls {
 
@@ -684,7 +817,6 @@ button:active {
   margin-top: 12px;
 
 }
-
 
 .control-button {
 
@@ -700,28 +832,31 @@ button:active {
 
 }
 
-
 .pause-button {
 
-  background: #e5e7eb;
+  background:
+    rgba(255,255,255,0.90);
 
-  color: #111;
+  color: #111522;
 
 }
-
 
 .stop-button {
 
-  background: #252a31;
+  background:
+    rgba(255,255,255,0.10);
 
-  color: white;
+  color: #ffffff;
+
+  border:
+    1px solid rgba(255,255,255,0.10);
 
 }
 
 
-/* =========================
+/* =====================================================
    ÉCRAN TERMINÉ
-========================= */
+===================================================== */
 
 #finishedScreen {
 
@@ -729,20 +864,32 @@ button:active {
 
 }
 
-
 .finished-card {
 
-  background: #15181d;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.10),
+      rgba(255,255,255,0.045)
+    );
 
   border:
-    1px solid #242830;
+    1px solid rgba(255,255,255,0.11);
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,0.22);
+
+  backdrop-filter:
+    blur(18px);
+
+  -webkit-backdrop-filter:
+    blur(18px);
 
   border-radius: 30px;
 
   padding: 32px 20px;
 
 }
-
 
 .finished-title {
 
@@ -752,8 +899,9 @@ button:active {
 
   margin-bottom: 28px;
 
-}
+  letter-spacing: 1px;
 
+}
 
 .results-grid {
 
@@ -766,10 +914,13 @@ button:active {
 
 }
 
-
 .result-box {
 
-  background: #20242b;
+  background:
+    rgba(255,255,255,0.075);
+
+  border:
+    1px solid rgba(255,255,255,0.07);
 
   border-radius: 18px;
 
@@ -777,10 +928,9 @@ button:active {
 
 }
 
-
 .result-label {
 
-  color: #858c96;
+  color: #9da8ba;
 
   font-size: 11px;
 
@@ -790,17 +940,15 @@ button:active {
 
 }
 
-
 .result-value {
 
-  font-size: 27px;
+  font-size: 26px;
 
   font-weight: 900;
 
   margin-top: 5px;
 
 }
-
 
 .restart-button {
 
@@ -810,9 +958,14 @@ button:active {
 
   border-radius: 18px;
 
-  background: white;
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #dce8ff
+    );
 
-  color: #111;
+  color: #111522;
 
   font-size: 17px;
 
@@ -825,34 +978,57 @@ button:active {
 }
 
 
-/* =========================
-   MESSAGE GPS
-========================= */
-
-.gps-message {
-
-  text-align: center;
-
-  color: #8d949e;
-
-  font-size: 12px;
-
-  margin-top: 10px;
-
-  line-height: 1.4;
-
-}
-
-
-/* =========================
+/* =====================================================
    CACHÉ
-========================= */
+===================================================== */
 
 .hidden {
 
   display: none !important;
 
 }
+
+
+/* =====================================================
+   PETITS ÉCRANS
+===================================================== */
+
+@media (max-height: 700px) {
+
+  .app {
+
+    padding-top: 14px;
+
+    padding-bottom: 14px;
+
+  }
+
+  .subtitle {
+
+    margin-bottom: 18px;
+
+  }
+
+  .setting-card {
+
+    padding: 15px 18px;
+
+  }
+
+  .countdown {
+
+    margin:
+      18px 0 15px;
+
+  }
+
+}
+
+
+/* =====================================================
+   IMPORTANT :
+   AUCUN MESSAGE D'ORIENTATION
+===================================================== */
 
 </style>
 
@@ -862,40 +1038,12 @@ button:active {
 <body>
 
 
-<!-- =========================
-     MESSAGE PAYSAGE
-========================= -->
-
-<div class="landscape-warning">
-
-  <div class="landscape-warning-inner">
-
-    <div class="landscape-icon">
-      📱↕️
-    </div>
-
-    <div class="landscape-title">
-      Téléphone à la verticale
-    </div>
-
-    <div class="landscape-text">
-      Pour utiliser Interval Timer,
-      replace ton iPhone en position
-      portrait.
-    </div>
-
-  </div>
-
-</div>
-
-
-
 <div class="app">
 
 
-<!-- =========================
+<!-- ===================================================
      ACCUEIL
-========================= -->
+=================================================== -->
 
 <div id="setupScreen">
 
@@ -915,10 +1063,11 @@ button:active {
 
     <div class="setting-top">
 
+
       <div>
 
         <div class="setting-label on-label">
-          🟢 COURSE
+          COURSE
         </div>
 
         <div class="setting-description">
@@ -936,6 +1085,7 @@ button:active {
         value="40"
       >
 
+
     </div>
 
 
@@ -948,10 +1098,11 @@ button:active {
 
     <div class="setting-top">
 
+
       <div>
 
         <div class="setting-label off-label">
-          🔵 RÉCUPÉRATION
+          RÉCUPÉRATION
         </div>
 
         <div class="setting-description">
@@ -968,6 +1119,7 @@ button:active {
         min="1"
         value="20"
       >
+
 
     </div>
 
@@ -1000,9 +1152,9 @@ button:active {
 
 
 
-<!-- =========================
+<!-- ===================================================
      ENTRAÎNEMENT
-========================= -->
+=================================================== -->
 
 <div
   id="runningScreen"
@@ -1011,6 +1163,7 @@ button:active {
 
 
   <div class="run-header">
+
 
     <div class="app-name-small">
       INTERVAL TIMER
@@ -1021,10 +1174,9 @@ button:active {
       id="gpsStatus"
       class="gps-status"
     >
-
-      📍 GPS...
-
+      GPS...
     </div>
+
 
   </div>
 
@@ -1061,16 +1213,16 @@ button:active {
 
 
 
-    <!-- GPS -->
-
     <div class="stats-grid">
 
 
       <div class="stat">
 
+
         <div class="stat-label">
           Distance
         </div>
+
 
         <div
           id="distance"
@@ -1079,9 +1231,11 @@ button:active {
           0.00
         </div>
 
+
         <span class="stat-unit">
           km
         </span>
+
 
       </div>
 
@@ -1089,9 +1243,11 @@ button:active {
 
       <div class="stat">
 
+
         <div class="stat-label">
           Allure
         </div>
+
 
         <div
           id="pace"
@@ -1100,9 +1256,11 @@ button:active {
           --
         </div>
 
+
         <span class="stat-unit">
           /km
         </span>
+
 
       </div>
 
@@ -1110,9 +1268,11 @@ button:active {
 
       <div class="stat">
 
+
         <div class="stat-label">
           Vitesse
         </div>
+
 
         <div
           id="speed"
@@ -1121,9 +1281,11 @@ button:active {
           --
         </div>
 
+
         <span class="stat-unit">
           km/h
         </span>
+
 
       </div>
 
@@ -1137,9 +1299,11 @@ button:active {
 
       <div class="secondary-stat">
 
+
         <div class="secondary-label">
           Temps
         </div>
+
 
         <div
           id="elapsed"
@@ -1148,15 +1312,18 @@ button:active {
           00:00
         </div>
 
+
       </div>
 
 
 
       <div class="secondary-stat">
 
+
         <div class="secondary-label">
           Cycles
         </div>
+
 
         <div
           id="cycles"
@@ -1164,6 +1331,7 @@ button:active {
         >
           0
         </div>
+
 
       </div>
 
@@ -1211,9 +1379,9 @@ button:active {
 
 
 
-<!-- =========================
+<!-- ===================================================
      TERMINÉ
-========================= -->
+=================================================== -->
 
 <div
   id="finishedScreen"
@@ -1225,7 +1393,7 @@ button:active {
 
 
     <div class="finished-title">
-      TERMINÉ 🎉
+      TERMINÉ
     </div>
 
 
@@ -1235,9 +1403,11 @@ button:active {
 
       <div class="result-box">
 
+
         <div class="result-label">
           Temps
         </div>
+
 
         <div
           id="finalTime"
@@ -1246,15 +1416,18 @@ button:active {
           00:00
         </div>
 
+
       </div>
 
 
 
       <div class="result-box">
 
+
         <div class="result-label">
           Cycles
         </div>
+
 
         <div
           id="finalCycles"
@@ -1263,15 +1436,18 @@ button:active {
           0
         </div>
 
+
       </div>
 
 
 
       <div class="result-box">
 
+
         <div class="result-label">
           Distance
         </div>
+
 
         <div
           id="finalDistance"
@@ -1280,15 +1456,18 @@ button:active {
           0.00 km
         </div>
 
+
       </div>
 
 
 
       <div class="result-box">
 
+
         <div class="result-label">
           Allure moyenne
         </div>
+
 
         <div
           id="finalPace"
@@ -1296,6 +1475,7 @@ button:active {
         >
           --
         </div>
+
 
       </div>
 
@@ -1308,7 +1488,9 @@ button:active {
       class="restart-button"
       onclick="resetApp()"
     >
+
       RECOMMENCER
+
     </button>
 
 
@@ -1324,11 +1506,9 @@ button:active {
 
 <script>
 
-
 /* =====================================================
    VARIABLES
 ===================================================== */
-
 
 let onDuration = 40;
 
@@ -1370,16 +1550,12 @@ let lastPosition = null;
 
 let totalDistanceMeters = 0;
 
-let gpsStarted = false;
-
 
 /* =====================================================
    FORMAT TEMPS
 ===================================================== */
 
-
 function formatTime(seconds) {
-
 
   seconds =
     Math.max(
@@ -1387,23 +1563,22 @@ function formatTime(seconds) {
       Math.floor(seconds)
     );
 
-
   const minutes =
     Math.floor(
       seconds / 60
     );
 
-
   const secs =
     seconds % 60;
-
 
   return (
 
     String(minutes)
       .padStart(2, "0")
 
-    + ":"
+    +
+
+    ":"
 
     +
 
@@ -1419,11 +1594,9 @@ function formatTime(seconds) {
    FORMAT ALLURE
 ===================================================== */
 
-
 function formatPace(
   secondsPerKm
 ) {
-
 
   if (
     !isFinite(secondsPerKm)
@@ -1435,18 +1608,15 @@ function formatPace(
 
   }
 
-
   const minutes =
     Math.floor(
       secondsPerKm / 60
     );
 
-
   const seconds =
     Math.round(
       secondsPerKm % 60
     );
-
 
   if (
     seconds >= 60
@@ -1459,13 +1629,13 @@ function formatPace(
 
   }
 
-
   return (
 
     String(minutes)
-      .padStart(1, "0")
 
-    + ":"
+    +
+
+    ":"
 
     +
 
@@ -1481,7 +1651,6 @@ function formatPace(
    DISTANCE GPS
 ===================================================== */
 
-
 function distanceBetween(
   lat1,
   lon1,
@@ -1489,26 +1658,21 @@ function distanceBetween(
   lon2
 ) {
 
-
   const earthRadius =
     6371000;
 
-
-  const toRadians =
+  const radians =
     Math.PI / 180;
-
 
   const dLat =
     (
       lat2 - lat1
-    ) * toRadians;
-
+    ) * radians;
 
   const dLon =
     (
       lon2 - lon1
-    ) * toRadians;
-
+    ) * radians;
 
   const a =
 
@@ -1519,13 +1683,13 @@ function distanceBetween(
     +
 
     Math.cos(
-      lat1 * toRadians
+      lat1 * radians
     )
 
     *
 
     Math.cos(
-      lat2 * toRadians
+      lat2 * radians
     )
 
     *
@@ -1533,7 +1697,6 @@ function distanceBetween(
     Math.sin(
       dLon / 2
     ) ** 2;
-
 
   const c =
 
@@ -1544,7 +1707,6 @@ function distanceBetween(
       Math.sqrt(1 - a)
     );
 
-
   return (
     earthRadius * c
   );
@@ -1553,50 +1715,42 @@ function distanceBetween(
 
 
 /* =====================================================
-   GPS — DÉMARRER
+   DÉMARRER GPS
 ===================================================== */
 
-
 function startGPS() {
-
 
   if (
     !navigator.geolocation
   ) {
 
-
     setGPSStatus(
-      "GPS non disponible",
+      "GPS indisponible",
       false
     );
-
 
     document
       .getElementById(
         "gpsMessage"
       )
       .textContent =
-      "Le GPS n'est pas disponible sur cet appareil.";
-
+      "Le GPS n'est pas disponible.";
 
     return;
 
   }
 
-
   setGPSStatus(
-    "📍 GPS...",
+    "GPS...",
     false
   );
-
 
   document
     .getElementById(
       "gpsMessage"
     )
     .textContent =
-    "Autorisation de localisation requise...";
-
+    "Recherche du signal GPS...";
 
   gpsWatchId =
     navigator.geolocation.watchPosition(
@@ -1606,49 +1760,32 @@ function startGPS() {
       handleGPSError,
 
       {
-
         enableHighAccuracy: true,
-
         maximumAge: 1000,
-
         timeout: 10000
-
       }
 
     );
-
-
-  gpsStarted = true;
 
 }
 
 
 /* =====================================================
-   GPS — POSITION
+   POSITION GPS
 ===================================================== */
-
 
 function handleGPSPosition(
   position
 ) {
 
-
   const coords =
     position.coords;
-
-
-  /*
-    Une précision GPS de plus de
-    40 mètres est trop incertaine
-    pour ajouter la distance.
-  */
 
   if (
     coords.accuracy
     &&
     coords.accuracy > 40
   ) {
-
 
     document
       .getElementById(
@@ -1657,17 +1794,14 @@ function handleGPSPosition(
       .textContent =
       "Signal GPS faible...";
 
-
     return;
 
   }
 
-
   setGPSStatus(
-    "📍 GPS actif",
+    "GPS actif",
     true
   );
-
 
   document
     .getElementById(
@@ -1676,17 +1810,9 @@ function handleGPSPosition(
     .textContent =
     "GPS actif";
 
-
-  /*
-    Première position :
-    on l'enregistre mais on
-    n'ajoute aucune distance.
-  */
-
   if (
     !lastPosition
   ) {
-
 
     lastPosition = {
 
@@ -1694,20 +1820,15 @@ function handleGPSPosition(
         coords.latitude,
 
       longitude:
-        coords.longitude,
-
-      timestamp:
-        position.timestamp
+        coords.longitude
 
     };
-
 
     updateGPSDisplay();
 
     return;
 
   }
-
 
   const distance =
     distanceBetween(
@@ -1722,69 +1843,26 @@ function handleGPSPosition(
 
     );
 
-
-  /*
-    On ignore les déplacements
-    minuscules causés par les
-    variations du GPS.
-
-    On ignore aussi les énormes
-    sauts GPS improbables.
-  */
-
   if (
     distance >= 3
     &&
     distance <= 100
   ) {
 
-
     totalDistanceMeters +=
       distance;
 
-
-    lastPosition = {
-
-      latitude:
-        coords.latitude,
-
-      longitude:
-        coords.longitude,
-
-      timestamp:
-        position.timestamp
-
-    };
-
-
   }
 
-  else if (
-    distance < 3
-  ) {
+  lastPosition = {
 
+    latitude:
+      coords.latitude,
 
-    /*
-      Même si on n'ajoute pas
-      cette distance, on actualise
-      la position de référence.
-    */
+    longitude:
+      coords.longitude
 
-    lastPosition = {
-
-      latitude:
-        coords.latitude,
-
-      longitude:
-        coords.longitude,
-
-      timestamp:
-        position.timestamp
-
-    };
-
-  }
-
+  };
 
   updateGPSDisplay();
 
@@ -1792,18 +1870,15 @@ function handleGPSPosition(
 
 
 /* =====================================================
-   GPS — ERREUR
+   ERREUR GPS
 ===================================================== */
-
 
 function handleGPSError(
   error
 ) {
 
-
   let message =
     "GPS indisponible";
-
 
   if (
     error.code === 1
@@ -1814,7 +1889,6 @@ function handleGPSError(
 
   }
 
-
   else if (
     error.code === 2
   ) {
@@ -1824,22 +1898,19 @@ function handleGPSError(
 
   }
 
-
   else if (
     error.code === 3
   ) {
 
     message =
-      "Le GPS met trop de temps à répondre.";
+      "Le GPS met trop de temps.";
 
   }
 
-
   setGPSStatus(
-    "📍 GPS",
+    "GPS",
     false
   );
-
 
   document
     .getElementById(
@@ -1852,134 +1923,21 @@ function handleGPSError(
 
 
 /* =====================================================
-   GPS — AFFICHAGE
+   STATUS GPS
 ===================================================== */
-
-
-function updateGPSDisplay() {
-
-
-  const distanceKm =
-    totalDistanceMeters
-    / 1000;
-
-
-  document
-    .getElementById(
-      "distance"
-    )
-    .textContent =
-    distanceKm.toFixed(2);
-
-
-  /*
-    Allure moyenne.
-
-    On utilise le temps réel
-    écoulé et la distance.
-  */
-
-  if (
-    distanceKm >= 0.01
-    &&
-    elapsedSeconds > 0
-  ) {
-
-
-    const secondsPerKm =
-      elapsedSeconds
-      / distanceKm;
-
-
-    document
-      .getElementById(
-        "pace"
-      )
-      .textContent =
-      formatPace(
-        secondsPerKm
-      );
-
-
-  }
-
-  else {
-
-
-    document
-      .getElementById(
-        "pace"
-      )
-      .textContent =
-      "--";
-
-  }
-
-
-  /*
-    Vitesse moyenne.
-  */
-
-  if (
-    distanceKm >= 0.01
-    &&
-    elapsedSeconds > 0
-  ) {
-
-
-    const speed =
-      distanceKm
-      /
-      (
-        elapsedSeconds / 3600
-      );
-
-
-    document
-      .getElementById(
-        "speed"
-      )
-      .textContent =
-      speed.toFixed(1);
-
-
-  }
-
-  else {
-
-
-    document
-      .getElementById(
-        "speed"
-      )
-      .textContent =
-      "--";
-
-  }
-
-}
-
-
-/* =====================================================
-   GPS STATUS
-===================================================== */
-
 
 function setGPSStatus(
   text,
   active
 ) {
 
-
   const element =
     document.getElementById(
       "gpsStatus"
     );
 
-
   element.textContent =
     text;
-
 
   if (
     active
@@ -2003,17 +1961,91 @@ function setGPSStatus(
 
 
 /* =====================================================
+   AFFICHAGE GPS
+===================================================== */
+
+function updateGPSDisplay() {
+
+  const distanceKm =
+    totalDistanceMeters
+    /
+    1000;
+
+  document
+    .getElementById(
+      "distance"
+    )
+    .textContent =
+    distanceKm.toFixed(2);
+
+  if (
+    distanceKm >= 0.01
+    &&
+    elapsedSeconds > 0
+  ) {
+
+    const pace =
+      elapsedSeconds
+      /
+      distanceKm;
+
+    document
+      .getElementById(
+        "pace"
+      )
+      .textContent =
+      formatPace(
+        pace
+      );
+
+    const speed =
+      distanceKm
+      /
+      (
+        elapsedSeconds
+        /
+        3600
+      );
+
+    document
+      .getElementById(
+        "speed"
+      )
+      .textContent =
+      speed.toFixed(1);
+
+  }
+
+  else {
+
+    document
+      .getElementById(
+        "pace"
+      )
+      .textContent =
+      "--";
+
+    document
+      .getElementById(
+        "speed"
+      )
+      .textContent =
+      "--";
+
+  }
+
+}
+
+
+/* =====================================================
    ARRÊTER GPS
 ===================================================== */
 
-
 function stopGPS() {
-
 
   if (
     gpsWatchId !== null
   ) {
-
 
     navigator
       .geolocation
@@ -2021,13 +2053,9 @@ function stopGPS() {
         gpsWatchId
       );
 
-
     gpsWatchId = null;
 
   }
-
-
-  gpsStarted = false;
 
 }
 
@@ -2036,19 +2064,15 @@ function stopGPS() {
    AUDIO
 ===================================================== */
 
-
 function initializeAudio() {
-
 
   if (
     !audioContext
   ) {
 
-
     const AudioContextClass =
       window.AudioContext ||
       window.webkitAudioContext;
-
 
     if (
       !AudioContextClass
@@ -2058,23 +2082,19 @@ function initializeAudio() {
 
     }
 
-
     audioContext =
       new AudioContextClass();
 
   }
-
 
   if (
     audioContext.state ===
     "suspended"
   ) {
 
-
     audioContext.resume();
 
   }
-
 
   return true;
 
@@ -2085,45 +2105,38 @@ function initializeAudio() {
    TEST SON
 ===================================================== */
 
-
 function testSound() {
-
 
   if (
     !initializeAudio()
   ) {
 
-
     alert(
-      "Le son web n'est pas disponible."
+      "Le son n'est pas disponible."
     );
-
 
     return;
 
   }
 
-
   playTone(
-    850,
-    0.32,
-    0.55
+    900,
+    0.55,
+    0.8
   );
 
 }
 
 
 /* =====================================================
-   JOUER UN SON
+   SON
 ===================================================== */
-
 
 function playTone(
   frequency,
   duration,
   volume
 ) {
-
 
   if (
     !audioContext
@@ -2132,7 +2145,6 @@ function playTone(
     return;
 
   }
-
 
   if (
     audioContext.state ===
@@ -2143,61 +2155,49 @@ function playTone(
 
   }
 
-
   const oscillator =
     audioContext
       .createOscillator();
-
 
   const gain =
     audioContext
       .createGain();
 
-
   oscillator.connect(
     gain
   );
-
 
   gain.connect(
     audioContext.destination
   );
 
-
   oscillator.type =
     "sine";
-
 
   oscillator.frequency.value =
     frequency;
 
-
   const now =
     audioContext.currentTime;
-
 
   gain.gain.setValueAtTime(
     0.001,
     now
   );
 
-
   gain.gain.exponentialRampToValueAtTime(
     volume,
     now + 0.02
   );
-
 
   gain.gain.exponentialRampToValueAtTime(
     0.001,
     now + duration
   );
 
-
   oscillator.start(
     now
   );
-
 
   oscillator.stop(
     now + duration
@@ -2207,17 +2207,15 @@ function playTone(
 
 
 /* =====================================================
-   PETITS BIPS
+   PETIT BIP
 ===================================================== */
-
 
 function playCountdownBeep() {
 
-
   playTone(
-    700,
-    0.18,
-    0.55
+    750,
+    0.20,
+    0.65
   );
 
 }
@@ -2227,35 +2225,24 @@ function playCountdownBeep() {
    GROS BIP
 ===================================================== */
 
-
 function playSignal() {
-
 
   playTone(
     950,
-    0.75,
-    0.9
+    0.80,
+    1.0
   );
 
 }
 
 
 /* =====================================================
-   DÉMARRER ENTRAÎNEMENT
+   DÉMARRER
 ===================================================== */
-
 
 function startWorkout() {
 
-
-  /*
-    Le son est initialisé
-    directement par le toucher
-    de l'utilisateur.
-  */
-
   initializeAudio();
-
 
   onDuration =
     Math.max(
@@ -2270,7 +2257,6 @@ function startWorkout() {
       || 40
     );
 
-
   offDuration =
     Math.max(
       1,
@@ -2284,59 +2270,37 @@ function startWorkout() {
       || 20
     );
 
-
   currentPhase =
     "ON";
-
 
   remainingSeconds =
     onDuration;
 
-
   cycles = 0;
-
 
   elapsedSeconds = 0;
 
-
   isPaused = false;
-
 
   pausedElapsed = 0;
 
-
   pauseStartTime = 0;
-
 
   lastBeepId = null;
 
-
-  /*
-    GPS repart à zéro.
-  */
-
   stopGPS();
-
 
   lastPosition = null;
 
-
   totalDistanceMeters = 0;
-
-
-  /*
-    Temps de départ.
-  */
 
   workoutStartTime =
     Date.now();
-
 
   phaseEndTime =
     Date.now()
     +
     onDuration * 1000;
-
 
   document
     .getElementById(
@@ -2345,29 +2309,19 @@ function startWorkout() {
     .textContent =
     "PAUSE";
 
-
   updateGPSDisplay();
-
 
   showScreen(
     "runningScreen"
   );
 
-
   updateDisplay();
 
-
-  /*
-    Démarre le GPS.
-  */
-
   startGPS();
-
 
   clearInterval(
     timer
   );
-
 
   timer =
     setInterval(
@@ -2375,19 +2329,16 @@ function startWorkout() {
       100
     );
 
-
   requestKeepAwake();
 
 }
 
 
 /* =====================================================
-   CHRONO
+   TIMER
 ===================================================== */
 
-
 function updateTimer() {
-
 
   if (
     isPaused
@@ -2397,10 +2348,8 @@ function updateTimer() {
 
   }
 
-
   const now =
     Date.now();
-
 
   elapsedSeconds =
     Math.floor(
@@ -2417,12 +2366,10 @@ function updateTimer() {
 
     );
 
-
   const remainingMilliseconds =
     phaseEndTime
     -
     now;
-
 
   remainingSeconds =
     Math.max(
@@ -2437,15 +2384,14 @@ function updateTimer() {
 
     );
 
-
   updateDisplay();
-
 
   updateGPSDisplay();
 
 
   /*
-    Bips 3 - 2 - 1
+     3, 2, 1 :
+     trois petits bips.
   */
 
   if (
@@ -2457,7 +2403,6 @@ function updateTimer() {
     remainingSeconds === 1
 
   ) {
-
 
     const beepId =
 
@@ -2471,15 +2416,12 @@ function updateTimer() {
       +
       phaseEndTime;
 
-
     if (
       lastBeepId !== beepId
     ) {
 
-
       lastBeepId =
         beepId;
-
 
       playCountdownBeep();
 
@@ -2489,13 +2431,12 @@ function updateTimer() {
 
 
   /*
-    Fin de phase.
+     Fin de l'intervalle.
   */
 
   if (
     remainingMilliseconds <= 0
   ) {
-
 
     changePhase();
 
@@ -2505,62 +2446,49 @@ function updateTimer() {
 
 
 /* =====================================================
-   CHANGEMENT DE PHASE
+   CHANGEMENT PHASE
 ===================================================== */
-
 
 function changePhase() {
 
-
   playSignal();
-
 
   if (
     currentPhase === "ON"
   ) {
 
-
     currentPhase =
       "OFF";
 
-
     remainingSeconds =
       offDuration;
-
 
     phaseEndTime =
       Date.now()
       +
       offDuration * 1000;
 
-
   }
 
   else {
 
-
     currentPhase =
       "ON";
 
-
     remainingSeconds =
       onDuration;
-
 
     phaseEndTime =
       Date.now()
       +
       onDuration * 1000;
 
-
     cycles++;
 
   }
 
-
   lastBeepId =
     null;
-
 
   updateDisplay();
 
@@ -2571,59 +2499,47 @@ function changePhase() {
    AFFICHAGE
 ===================================================== */
 
-
 function updateDisplay() {
 
-
-  const phaseElement =
+  const phase =
     document.getElementById(
       "phase"
     );
 
-
-  const descriptionElement =
+  const description =
     document.getElementById(
       "phaseDescription"
     );
 
-
-  const phaseCard =
+  const card =
     document.getElementById(
       "phaseCard"
     );
 
-
-  phaseElement.textContent =
+  phase.textContent =
     currentPhase;
-
 
   if (
     currentPhase === "ON"
   ) {
 
-
-    descriptionElement.textContent =
+    description.textContent =
       "COURSE";
 
-
-    phaseCard.className =
+    card.className =
       "phase-card on";
-
 
   }
 
   else {
 
-
-    descriptionElement.textContent =
+    description.textContent =
       "RÉCUPÉRATION";
 
-
-    phaseCard.className =
+    card.className =
       "phase-card off";
 
   }
-
 
   document
     .getElementById(
@@ -2634,7 +2550,6 @@ function updateDisplay() {
       remainingSeconds
     );
 
-
   document
     .getElementById(
       "elapsed"
@@ -2643,7 +2558,6 @@ function updateDisplay() {
     formatTime(
       elapsedSeconds
     );
-
 
   document
     .getElementById(
@@ -2656,24 +2570,19 @@ function updateDisplay() {
 
 
 /* =====================================================
-   PAUSE / REPRISE
+   PAUSE
 ===================================================== */
 
-
 function togglePause() {
-
 
   if (
     !isPaused
   ) {
 
-
     isPaused = true;
-
 
     pauseStartTime =
       Date.now();
-
 
     document
       .getElementById(
@@ -2682,7 +2591,6 @@ function togglePause() {
       .textContent =
       "REPRENDRE";
 
-
     document
       .getElementById(
         "gpsMessage"
@@ -2690,28 +2598,22 @@ function togglePause() {
       .textContent =
       "En pause";
 
-
   }
 
   else {
-
 
     const pauseDuration =
       Date.now()
       -
       pauseStartTime;
 
-
     pausedElapsed +=
       pauseDuration;
-
 
     phaseEndTime +=
       pauseDuration;
 
-
     isPaused = false;
-
 
     document
       .getElementById(
@@ -2720,14 +2622,12 @@ function togglePause() {
       .textContent =
       "PAUSE";
 
-
     document
       .getElementById(
         "gpsMessage"
       )
       .textContent =
       "GPS actif";
-
 
   }
 
@@ -2738,23 +2638,18 @@ function togglePause() {
    STOP
 ===================================================== */
 
-
 function stopWorkout() {
-
 
   clearInterval(
     timer
   );
 
-
   stopGPS();
-
 
   const distanceKm =
     totalDistanceMeters
     /
     1000;
-
 
   document
     .getElementById(
@@ -2765,14 +2660,12 @@ function stopWorkout() {
       elapsedSeconds
     );
 
-
   document
     .getElementById(
       "finalCycles"
     )
     .textContent =
     cycles;
-
 
   document
     .getElementById(
@@ -2783,17 +2676,14 @@ function stopWorkout() {
     +
     " km";
 
-
   if (
     distanceKm >= 0.01
   ) {
 
-
-    const averagePace =
+    const pace =
       elapsedSeconds
       /
       distanceKm;
-
 
     document
       .getElementById(
@@ -2801,16 +2691,14 @@ function stopWorkout() {
       )
       .textContent =
       formatPace(
-        averagePace
+        pace
       )
       +
       " /km";
 
-
   }
 
   else {
-
 
     document
       .getElementById(
@@ -2820,7 +2708,6 @@ function stopWorkout() {
       "--";
 
   }
-
 
   showScreen(
     "finishedScreen"
@@ -2833,20 +2720,15 @@ function stopWorkout() {
    RECOMMENCER
 ===================================================== */
 
-
 function resetApp() {
-
 
   clearInterval(
     timer
   );
 
-
   stopGPS();
 
-
   isPaused = false;
-
 
   showScreen(
     "setupScreen"
@@ -2856,14 +2738,12 @@ function resetApp() {
 
 
 /* =====================================================
-   CHANGER D'ÉCRAN
+   ÉCRANS
 ===================================================== */
-
 
 function showScreen(
   screenId
 ) {
-
 
   document
     .getElementById(
@@ -2873,7 +2753,6 @@ function showScreen(
       "hidden"
     );
 
-
   document
     .getElementById(
       "runningScreen"
@@ -2882,7 +2761,6 @@ function showScreen(
       "hidden"
     );
 
-
   document
     .getElementById(
       "finishedScreen"
@@ -2890,7 +2768,6 @@ function showScreen(
     .classList.add(
       "hidden"
     );
-
 
   document
     .getElementById(
@@ -2907,20 +2784,15 @@ function showScreen(
    WAKE LOCK
 ===================================================== */
 
-
 let wakeLock = null;
-
 
 async function requestKeepAwake() {
 
-
   try {
-
 
     if (
       "wakeLock" in navigator
     ) {
-
 
       wakeLock =
         await navigator
@@ -2929,11 +2801,6 @@ async function requestKeepAwake() {
             "screen"
           );
 
-
-      console.log(
-        "Écran maintenu actif"
-      );
-
     }
 
   }
@@ -2941,7 +2808,6 @@ async function requestKeepAwake() {
   catch (
     error
   ) {
-
 
     console.log(
       "Wake Lock non disponible"
@@ -2956,11 +2822,9 @@ async function requestKeepAwake() {
    VISIBILITÉ
 ===================================================== */
 
-
 document.addEventListener(
   "visibilitychange",
   function() {
-
 
     if (
 
@@ -2973,7 +2837,6 @@ document.addEventListener(
 
     ) {
 
-
       requestKeepAwake();
 
     }
@@ -2981,9 +2844,7 @@ document.addEventListener(
   }
 );
 
-
 </script>
-
 
 </body>
 
